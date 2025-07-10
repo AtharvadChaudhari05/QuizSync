@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuizSync - Interactive Quiz Platform</title>
+    <link rel="stylesheet" href="styles/home.css" />
+  </head>
+
+  <body>
+    <div class="main-container">
+      <header>
+        <nav>
+          <div class="logo">
+            <img src="logo.jpg" alt="QuizSync Logo" />
+            <span class="logo-text hero-title-animated">QuizSync</span>
+          </div>
+          <div class="nav-links-group">
+            <div class="nav-links">
+              <a href="#features">Features</a>
+              <a href="#join-quiz">Join Quiz</a>
+              <a href="#create-quiz">Create Quiz</a>
+              <div class="auth-buttons">
+                <a href="#" class="btn-login" onclick="openModal('login')"
+                  >Login</a
+                >
+                <a href="#" class="btn-signup" onclick="openModal('signup')"
+                  >Sign Up</a
+                >
+              </div>
+            </div>
+            <button class="profile-btn" title="Profile">
+              <img src="profile logo.jpg" alt="Profile" />
+            </button>
+          </div>
+        </nav>
+      </header>
+
+      <div class="content-wrapper">
+        <section class="hero">
+          <div class="bubble-bg">
+            <div class="bubble bubble1"></div>
+            <div class="bubble bubble2"></div>
+            <div class="bubble bubble3"></div>
+            <div class="bubble bubble4"></div>
+            <div class="bubble bubble5"></div>
+            <div class="bubble bubble6"></div>
+            <div class="bubble bubble7"></div>
+            <div class="bubble bubble8"></div>
+          </div>
+
+          <div class="floating-elements">
+            <div class="floating-quiz">🧠</div>
+            <div class="floating-quiz">📝</div>
+            <div class="floating-quiz">🎯</div>
+          </div>
+
+          <div class="hero-content">
+            <div class="hero-title-main">QuizSync</div>
+            <div class="hero-motivation animated-motivation">
+              Empower Your Curiosity. Ignite Your Potential.
+            </div>
+            <div class="hero-goal animated-goal">
+              Our goal: To make learning fun, interactive, and accessible for
+              everyone—anywhere, anytime. Join a vibrant community, challenge
+              yourself, and grow with every quiz!
+            </div>
+            <p class="hero-subtitle">
+              The Ultimate Interactive Quiz Platform for Modern Learning
+            </p>
+            <a href="#features" class="cta-button">Explore Features</a>
+          </div>
+
+          <div class="scroll-indicator">
+            <div>↓</div>
+          </div>
+        </section>
+
+        <section class="features section" id="features">
+          <div class="section-container">
+            <h2>Why Choose QuizSync?</h2>
+            <div class="features-grid">
+              <div class="feature-card feature-1">
+                <div class="feature-box"></div>
+                <div class="feature-icon">⚡</div>
+                <h3>Real-time Sync</h3>
+                <p>
+                  Experience seamless real-time synchronization across all
+                  devices. Every participant stays perfectly in sync with
+                  instant updates and live interactions.
+                </p>
+              </div>
+              <div class="feature-card feature-2">
+                <div class="feature-box"></div>
+                <div class="feature-icon">🎨</div>
+                <h3>Custom Themes</h3>
+                <p>
+                  Create beautiful, personalized quizzes with our extensive
+                  theme library, custom colors, and advanced customization
+                  options for every occasion.
+                </p>
+              </div>
+              <div class="feature-card feature-3">
+                <div class="feature-box"></div>
+                <div class="feature-icon">📊</div>
+                <h3>Advanced Analytics</h3>
+                <p>
+                  Get detailed insights and performance tracking to help you
+                  improve and engage your audience like never before.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="quiz-section join-quiz" id="join-quiz">
+          <div class="quiz-content">
+            <div class="quiz-text">
+              <h2>Join a Quiz</h2>
+              <p>
+                Enter a quiz code and join thousands of participants in
+                interactive, real-time quizzes. Test your knowledge, compete
+                with others, and experience the thrill of live competition!
+              </p>
+              <div class="quiz-btn" onclick="joinQuiz()">Enter Quiz Code</div>
+            </div>
+            <div class="quiz-visual">
+              <div class="quiz-circle" onclick="joinQuiz()">🚀</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="quiz-section create-quiz" id="create-quiz">
+          <div class="quiz-content">
+            <div class="quiz-visual">
+              <div class="quiz-circle" onclick="createQuiz()">✨</div>
+            </div>
+            <div class="quiz-text">
+              <h2>Create a Quiz</h2>
+              <p>
+                Design engaging quizzes with our intuitive quiz builder. Add
+                multimedia content, set custom timers, and create memorable
+                experiences that captivate your audience.
+              </p>
+              <div class="quiz-btn" onclick="createQuiz()">Start Creating</div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Login Modal -->
+      <div id="loginModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-illustration">
+            <span>🔐</span>
+            <div>Welcome Back!</div>
+          </div>
+          <div class="modal-form-section">
+            <button class="close" onclick="closeModal('loginModal')">
+              &times;
+            </button>
+            <div class="modal-header">
+              <h2>Login to QuizSync</h2>
+              <p>Access your quizzes and results.</p>
+            </div>
+            <div class="modal-body">
+              <form id="loginForm">
+                <div class="form-group">
+                  <label for="loginEmail">Email Address</label>
+                  <span class="input-icon">📧</span>
+                  <input
+                    type="email"
+                    id="loginEmail"
+                    name="email"
+                    required
+                    placeholder="Enter your email"
+                    class="js-input-login-email"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="loginPassword">Password</label>
+                  <span class="input-icon">🔒</span>
+                  <input
+                    type="password"
+                    id="loginPassword"
+                    name="password"
+                    required
+                    placeholder="Enter your password"
+                    class="js-input-login-password"
+                  />
+                  <button type="button" class="toggle-password-visibility" style="margin-left:8px;">Show</button>
+                </div>
+                <button type="submit" class="form-submit js-login-btn">Login</button>
+                <div class="form-switch">
+                  Don't have an account?
+                  <a href="#" onclick="switchModal('loginModal', 'signupModal')"
+                    >Sign up here</a
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Signup Modal -->
+      <div id="signupModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-form-section">
+            <button class="close" onclick="closeModal('signupModal')">
+              &times;
+            </button>
+            <div class="modal-header">
+              <h2>Create Your Account</h2>
+              <p>Start creating and joining quizzes instantly.</p>
+            </div>
+            <div class="modal-body">
+              <form id="signupForm">
+                <div class="form-group">
+                  <label for="signupName">Full Name</label>
+                  <span class="input-icon">👤</span>
+                  <input
+                    type="text"
+                    id="signupName"
+                    name="name"
+                    required
+                    placeholder="Enter your full name"
+                    class="js-input-signup-name"
+                  />
+                  <div class="form-feedback" id="nameFeedback"></div>
+                </div>
+                <div class="form-group">
+                  <label for="signupEmail">Email Address</label>
+                  <span class="input-icon">📧</span>
+                  <input
+                    type="email"
+                    id="signupEmail"
+                    name="email"
+                    required
+                    placeholder="Enter your email address"
+                    class="js-input-signup-email"
+                  />
+                  <div class="form-feedback" id="emailFeedback"></div>
+                </div>
+                <div class="form-group">
+                  <label for="signupPassword">Password</label>
+                  <span class="input-icon">🔒</span>
+                  <input
+                    type="password"
+                    id="signupPassword"
+                    name="password"
+                    required
+                    placeholder="Create a strong password"
+                    class="js-input-signup-password"
+                  />
+                  <button type="button" class="toggle-password-visibility" style="margin-left:8px;">Show</button>
+                  <div class="password-strength">
+                    <div class="progress-bar">
+                      <div class="progress-fill" id="passwordStrength"></div>
+                    </div>
+                    <small
+                      >Password strength:
+                      <span id="strengthText">Weak</span></small
+                    >
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="signupConfirmPassword">Confirm Password</label>
+                  <span class="input-icon">🔒</span>
+                  <input
+                    type="password"
+                    id="signupConfirmPassword"
+                    name="confirmPassword"
+                    required
+                    placeholder="Confirm your password"
+                    class="js-input-signup-submit"
+                  />
+                  <button type="button" class="toggle-password-visibility" style="margin-left:8px;">Show</button>
+                  <div class="form-feedback" id="confirmFeedback"></div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="termsCheckbox" required />
+                    <span class="checkmark"></span>
+                    I agree to the
+                    <a href="#" style="color: #667eea">Terms of Service</a> and
+                    <a href="#" style="color: #667eea">Privacy Policy</a>
+                  </label>
+                </div>
+                <button type="submit" class="form-submit">
+                  <span class="btn-text">Create Account</span>
+                  <span class="btn-loading" style="display: none"
+                    >Creating Account...</span
+                  >
+                </button>
+                <div class="form-switch">
+                  Already have an account?
+                  <a href="#" onclick="switchModal('signupModal', 'loginModal')"
+                    >Login here</a
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Join Quiz Modal -->
+      <div id="joinQuizModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-form-section">
+            <button class="close" onclick="closeModal('joinQuizModal')">
+              &times;
+            </button>
+            <div class="modal-header">
+              <h2>Join a Quiz</h2>
+              <p>Enter your quiz code to join the room.</p>
+            </div>
+            <form
+              class="join-quiz-form"
+              onsubmit="event.preventDefault(); submitJoinQuiz();"
+            >
+              <input
+                type="text"
+                id="quizCodeInput"
+                class="join-quiz-input"
+                placeholder="Enter Quiz Code"
+                maxlength="10"
+                autocomplete="off"
+              />
+              <button type="submit" class="join-quiz-btn">Join Quiz</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Create Quiz Modal -->
+      <div id="createQuizModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="close" onclick="closeModal('createQuizModal')"
+              >&times;</span
+            >
+            <h2>Create a Quiz</h2>
+          </div>
+          <div class="modal-form-section">
+            <form id="createQuizForm">
+              <div class="form-group">
+                <label for="createQuizEmail">Email Address</label>
+                <input
+                  type="email"
+                  id="createQuizEmail"
+                  name="email"
+                  required
+                  placeholder="Enter your email"
+                />
+              </div>
+              <div class="form-group">
+                <label for="createQuizPassword">Password</label>
+                <input
+                  type="password"
+                  id="createQuizPassword"
+                  name="password"
+                  required
+                  placeholder="Enter your password"
+                />
+              </div>
+              <button type="submit" class="form-submit">Create Quiz</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Modal -->
+      <div id="profileModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-form-section" style="align-items:center; text-align:center;">
+            <button class="close" onclick="closeModal('profileModal')">&times;</button>
+            <div style="margin: 1.5rem 0 1rem 0;">
+              <img src="profile logo.jpg" alt="Profile" style="width:90px; height:90px; border-radius:50%; box-shadow:0 2px 12px #667eea44; margin-bottom:1rem;" />
+              <h2 style="margin:0; font-size:1.5rem; color:#324376;" class="js-profile-name"></h2>
+              <p style="margin:0.5rem 0 1.5rem 0; color:#4a5a8a; font-size:1rem;" class="js-profile-email"></p>
+              <button style="padding:0.7rem 2rem; border-radius:30px; background:linear-gradient(90deg,#667eea,#fc466b); color:#fff; border:none; font-weight:600; cursor:pointer;" class="js-profile-logout">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>QuizSync</h3>
+            <p>
+              Transform your learning experience with our innovative quiz
+              platform. Join millions of users worldwide in creating and
+              participating in engaging, interactive quizzes.
+            </p>
+            <div class="social-links">
+              <a href="#"><span>📘</span></a>
+              <a href="#"><span>🐦</span></a>
+              <a href="#"><span>📷</span></a>
+              <a href="#"><span>💼</span></a>
+            </div>
+          </div>
+
+          <div class="footer-section">
+            <h3>Features</h3>
+            <ul>
+              <li><a href="#features">Real-time Sync</a></li>
+              <li><a href="#features">Custom Themes</a></li>
+              <li><a href="#features">Advanced Analytics</a></li>
+              <li><a href="#features">Multi-device Support</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="#join-quiz">Join Quiz</a></li>
+              <li><a href="#create-quiz">Create Quiz</a></li>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#">Help Center</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h3>Contact Us</h3>
+            <div class="contact-info">
+              <span>📍</span>
+              <span
+                ><strong>Address 1:</strong> Vivekanand Institute of Technology,
+                Chembur Colony, Chembur (W), Mumbai</span
+              >
+            </div>
+            <div class="contact-info">
+              <span>📍</span>
+              <span
+                ><strong>Address 2:</strong> GODJN Solutions Pvt Ltd, Pune</span
+              >
+            </div>
+            <div class="contact-info">
+              <span>📧</span>
+              <span>support@quizsync.com</span>
+            </div>
+            <div class="contact-info">
+              <span>📞</span>
+              <span>+91 8425997049</span>
+            </div>
+          </div>
+
+          <div class="footer-section">
+            <h3>Team Members</h3>
+            <div class="contact-info">
+              <span>👨‍💻</span>
+              <span>d2024atharva.chaudhari@ves.ac.in</span>
+            </div>
+            <div class="contact-info">
+              <span>👩‍💻</span>
+              <span>2023.aarya.thorat@ves.ac.in</span>
+            </div>
+            <div class="contact-info">
+              <span>👨‍💻</span>
+              <span>2023.yash.bhurke@ves.ac.in</span>
+            </div>
+            <div class="contact-info">
+              <span>👨‍💻</span>
+              <span>2023.manas.r.patil@ves.ac.in</span>
+            </div>
+            <div class="contact-info">
+              <span>👨‍💻</span>
+              <span>d2024sameer.jagiasi@ves.ac.in</span>
+            </div>
+            <div class="contact-info">
+              <span>👨‍💻</span>
+              <span>bhumikabhatia@gmail.com</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>
+            &copy; 2024 QuizSync. All rights reserved. | Privacy Policy | Terms
+            of Service
+          </p>
+        </div>
+      </footer>
+    </div>
+    <script src="scripts/profile.js"></script>
+    <script src="scripts/login.js"></script>
+    <script src="scripts/data.js"></script>
+    <script src="scripts/home.js"></script>
+  </body>
+</html>
