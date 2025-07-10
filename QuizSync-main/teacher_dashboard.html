@@ -1,0 +1,2010 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher Dashboard | QuizSync</title>
+    <style>
+         :root {
+            --primary: #324376;
+            --primary-light: #4a5a8a;
+            --primary-dark: #222d3a;
+            --accent: #5e7cff;
+            --accent-light: #a3b6e7;
+            --accent-dark: #22305a;
+            --gold: #fbbf24;
+            --pink: #fc466b;
+            --teal: #1de9b6;
+            --bg-light: #f4f6fa;
+            --bg-gradient: linear-gradient(135deg, #a3b6e7 0%, #5e7cff 100%);
+            --feature1: linear-gradient(135deg, #4a5a8a 60%, #324376 100%);
+            --feature2: linear-gradient(135deg, #a3b6e7 60%, #4a5a8a 100%);
+            --feature3: linear-gradient(135deg, #22305a 60%, #324376 100%);
+            --shadow: 0 8px 32px rgba(50, 67, 118, 0.13);
+            --radius: 20px;
+            --font-main: 'Inter', 'Segoe UI', 'Roboto', Arial, sans-serif;
+            --badge-live: var(--teal);
+            --badge-scheduled: var(--accent);
+            --badge-expired: var(--pink);
+            --glass-bg: rgba(255, 255, 255, 0.38);
+            --glass-border: rgba(163, 182, 231, 0.28);
+        }
+        
+        body {
+            margin: 0;
+            font-family: var(--font-main);
+            background: var(--bg-gradient);
+            color: var(--primary-dark);
+            min-height: 100vh;
+            background-attachment: fixed;
+            animation: bgFade 12s ease-in-out infinite alternate;
+        }
+        
+        @keyframes bgFade {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+        
+        .dashboard-container,
+        #results-container {
+            max-width: 1200px;
+            margin: 48px auto 32px auto;
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 36px 44px 44px 44px;
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+            backdrop-filter: blur(12px) saturate(1.2);
+            border: 1.5px solid var(--glass-border);
+            animation: fadeInUp 1.2s cubic-bezier(0.23, 1.01, 0.32, 1) both;
+        }
+        
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: none;
+            }
+        }
+        
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .dashboard-header h1,
+        #results-container .dashboard-header h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin: 0;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 24px rgba(102, 126, 234, 0.18);
+            animation: heroTitleGlow 2.5s infinite alternate;
+        }
+        
+        @keyframes heroTitleGlow {
+            0% {
+                filter: drop-shadow(0 0 0px var(--accent));
+            }
+            100% {
+                filter: drop-shadow(0 0 18px var(--accent));
+            }
+        }
+        
+        .dashboard-header .logo {
+            height: 56px;
+            border-radius: 16px;
+            box-shadow: 0 6px 24px rgba(102, 126, 234, 0.18);
+            background: #fff;
+            margin-left: 12px;
+            animation: logoSpinPulse 1.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s both, logoPulse 2.5s infinite alternate;
+        }
+        
+        @keyframes logoSpinPulse {
+            0% {
+                opacity: 0;
+                transform: scale(0.7) rotate(-180deg);
+                filter: brightness(0.7);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.08) rotate(20deg);
+                filter: brightness(1.2);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+                filter: brightness(1);
+            }
+        }
+        
+        @keyframes logoPulse {
+            0% {
+                filter: drop-shadow(0 0 0px var(--accent));
+                transform: scale(1);
+            }
+            100% {
+                filter: drop-shadow(0 0 24px var(--accent));
+                transform: scale(1.07);
+            }
+        }
+        
+        .section {
+            background: var(--bg-light);
+            border-radius: var(--radius);
+            box-shadow: 0 2px 16px rgba(90, 122, 255, 0.10);
+            padding: 28px 32px;
+            margin-bottom: 0;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            animation: fadeInSection 1.1s cubic-bezier(0.23, 1.01, 0.32, 1) both;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        
+        @keyframes fadeInSection {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.98);
+            }
+            100% {
+                opacity: 1;
+                transform: none;
+            }
+        }
+        
+        .section:hover {
+            box-shadow: 0 8px 32px rgba(90, 122, 255, 0.18);
+            transform: translateY(-2px) scale(1.01);
+        }
+        
+        .section-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: var(--primary);
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 2.5s infinite linear alternate;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                filter: brightness(1.1);
+            }
+            100% {
+                filter: brightness(1.3) drop-shadow(0 0 8px var(--gold));
+            }
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .form-row label {
+            min-width: 120px;
+            font-weight: 500;
+            margin-right: 8px;
+            color: var(--primary-dark);
+        }
+        
+        .form-row input,
+        .form-row select,
+        .form-row textarea {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1.5px solid var(--accent-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #fff;
+            transition: border 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1px 4px rgba(50, 67, 118, 0.04);
+        }
+        
+        .form-row input:focus,
+        .form-row select:focus,
+        .form-row textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 2px var(--accent-light);
+        }
+        
+        .btn {
+            background: linear-gradient(90deg, var(--accent) 0%, var(--gold) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 26px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+            box-shadow: 0 2px 8px rgba(79, 140, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:active {
+            transform: scale(0.97);
+        }
+        
+        .btn::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, var(--teal) 0%, transparent 80%);
+            opacity: 0.3;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+            z-index: 0;
+        }
+        
+        .btn:active::after {
+            width: 120px;
+            height: 120px;
+            transition: width 0.2s, height 0.2s;
+        }
+        
+        .btn-accent {
+            background: linear-gradient(90deg, var(--gold) 0%, var(--accent) 100%);
+            color: var(--primary-dark);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(90deg, var(--pink) 0%, var(--accent) 100%);
+            color: #fff;
+        }
+        
+        .btn-success {
+            background: linear-gradient(90deg, var(--teal) 0%, var(--accent) 100%);
+            color: #fff;
+        }
+        
+        .quiz-list {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(50, 67, 118, 0.06);
+            animation: fadeInSection 1.1s cubic-bezier(0.23, 1.01, 0.32, 1) both;
+        }
+        
+        .quiz-list th,
+        .quiz-list td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            font-size: 1rem;
+        }
+        
+        .quiz-list th {
+            background: var(--accent-light);
+            color: var(--primary);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .quiz-list tr {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: rowFadeIn 0.7s cubic-bezier(0.23, 1.01, 0.32, 1) forwards;
+        }
+        
+        .quiz-list tr:nth-child(n) {
+            animation-delay: 0.1s;
+        }
+        
+        .quiz-list tr:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .quiz-list tr:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        .quiz-list tr:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        
+        .quiz-list tr:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+        
+        @keyframes rowFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: none;
+            }
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 0.95em;
+            font-weight: 700;
+            color: #fff;
+            background: var(--accent);
+            box-shadow: 0 1px 4px rgba(50, 67, 118, 0.08);
+            margin-right: 4px;
+            letter-spacing: 1px;
+            animation: badgePop 0.7s cubic-bezier(0.23, 1.01, 0.32, 1) both;
+        }
+        
+        .badge.live {
+            background: var(--badge-live);
+        }
+        
+        .badge.scheduled {
+            background: var(--badge-scheduled);
+        }
+        
+        .badge.expired {
+            background: var(--badge-expired);
+        }
+        
+        @keyframes badgePop {
+            0% {
+                transform: scale(0.7);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .code-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--accent-light);
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            user-select: all;
+            box-shadow: 0 1px 4px rgba(50, 67, 118, 0.06);
+            position: relative;
+            overflow: hidden;
+            animation: codeReveal 1.1s cubic-bezier(0.23, 1.01, 0.32, 1) both;
+        }
+        
+        @keyframes codeReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: none;
+            }
+        }
+        
+        .code-box .btn {
+            margin-left: 8px;
+            font-size: 0.95em;
+            padding: 7px 16px;
+        }
+        
+        .student-status-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 10px;
+        }
+        
+        .student-status {
+            background: #fff;
+            border: 2px solid var(--accent-light);
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 1rem;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 1px 4px rgba(50, 67, 118, 0.04);
+            position: relative;
+            animation: fadeInSection 0.7s cubic-bezier(0.23, 1.01, 0.32, 1) both;
+        }
+        
+        .student-status.online {
+            border-color: var(--teal);
+            color: var(--teal);
+            background: linear-gradient(90deg, #e0fff7 0%, #f4f6fa 100%);
+            box-shadow: 0 2px 8px rgba(29, 233, 182, 0.08);
+        }
+        
+        .student-status.offline {
+            border-color: #e5e7eb;
+            color: #aaa;
+            background: #f4f6fa;
+        }
+        
+        .student-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: inline-block;
+            margin-right: 6px;
+            box-shadow: 0 0 8px var(--accent-light);
+            animation: dotPulse 1.2s infinite alternate;
+        }
+        
+        .student-status.online .student-dot {
+            background: var(--teal);
+            box-shadow: 0 0 12px var(--teal);
+            animation: dotPulseTeal 1.2s infinite alternate;
+        }
+        
+        @keyframes dotPulse {
+            0% {
+                box-shadow: 0 0 0px var(--accent-light);
+            }
+            100% {
+                box-shadow: 0 0 12px var(--accent);
+            }
+        }
+        
+        @keyframes dotPulseTeal {
+            0% {
+                box-shadow: 0 0 0px var(--teal);
+            }
+            100% {
+                box-shadow: 0 0 16px var(--teal);
+            }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(50, 67, 118, 0.18);
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.4s;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        .modal-content {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 36px 44px;
+            box-shadow: var(--shadow);
+            min-width: 320px;
+            max-width: 90vw;
+            text-align: center;
+            animation: modalPopIn 0.7s cubic-bezier(0.23, 1.01, 0.32, 1) both;
+        }
+        
+        @keyframes modalPopIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: none;
+            }
+        }
+        
+        .modal-content h2 {
+            margin-top: 0;
+            color: var(--primary);
+            background: linear-gradient(90deg, var(--accent) 0%, var(--teal) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+
+        }
+        
+        .modal-content .btn {
+            margin-top: 18px;
+        }
+        /* Animated card for question preview */
+        
+        .question-card {
+            background: linear-gradient(90deg, #fff 60%, var(--accent-light) 100%);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(50, 67, 118, 0.06);
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: fadeInSection 0.7s cubic-bezier(0.23, 1.01, 0.32, 1) both;
+            position: relative;
+        }
+        
+        .question-card .remove-btn {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: var(--pink);
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .question-card .remove-btn:hover {
+            color: var(--danger);
+        }
+        /* Responsive */
+        
+        @media (max-width: 900px) {
+            .dashboard-container {
+                padding: 16px 2vw;
+            }
+            .modal-content {
+                padding: 18px 4vw;
+            }
+            .section {
+                padding: 14px 2vw;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .dashboard-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .dashboard-container {
+                padding: 8px 1vw;
+            }
+            .section {
+                padding: 8px 2vw;
+            }
+            .modal-content {
+                padding: 10px 2vw;
+            }
+        }
+        
+        .analytics-cards {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+        
+        .analytics-card {
+            flex: 1 1 220px;
+            min-width: 220px;
+            background: linear-gradient(135deg, #eaf0fb 60%, #a3b6e7 100%);
+            border-radius: 18px;
+            box-shadow: 0 2px 16px rgba(90, 122, 255, 0.10);
+            padding: 28px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInSection 1.1s cubic-bezier(0.23, 1.01, 0.32, 1) both;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        
+        .analytics-card:hover {
+            box-shadow: 0 8px 32px rgba(90, 122, 255, 0.18);
+            transform: translateY(-2px) scale(1.03);
+        }
+        
+        .analytics-card .icon {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            color: var(--primary-light);
+            filter: drop-shadow(0 2px 8px var(--accent-light));
+            transition: color 0.2s;
+        }
+        
+        .analytics-card .stat {
+            font-size: 2.3em;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+            transition: color 0.2s;
+        }
+        
+        .analytics-card .label {
+            font-size: 1.1em;
+            color: var(--primary-light);
+            font-weight: 500;
+        }
+        
+        .analytics-card .stat.animated {
+            animation: statCountUp 1.2s cubic-bezier(0.23, 1.01, 0.32, 1);
+        }
+        
+        @keyframes statCountUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: none;
+            }
+        }
+        
+        .progress-container {
+            margin: 15px 0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        #question-timer-bar {
+            height: 100%;
+            background: var(--accent);
+            transition: width 1s linear;
+        }
+        
+        #timer-display {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        #points-leaderboard-table tr td:nth-child(3) {
+            font-weight: bold;
+            color: var(--primary);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Teacher Dashboard</h1>
+            <img src="logo.jpg" alt="QuizSync Logo" class="logo" />
+        </div>
+        <div class="dashboard-navbar">
+            <button class="btn" id="nav-dashboard">Dashboard</button>
+            <button class="btn btn-accent" id="nav-results">Results</button>
+        </div>
+        <!-- Analytics Cards (Professional) -->
+        <div class="analytics-cards" id="dashboard-analytics">
+            <div class="analytics-card">
+                <span class="icon">📊</span>
+                <span class="stat" id="stat-total-quizzes">0</span>
+                <span class="label">Total Quizzes</span>
+            </div>
+            <div class="analytics-card">
+                <span class="icon">❓</span>
+                <span class="stat" id="stat-total-questions">0</span>
+                <span class="label">Total Questions</span>
+            </div>
+            <div class="analytics-card">
+                <span class="icon">👨‍🎓</span>
+                <span class="stat" id="stat-total-students">0</span>
+                <span class="label">Students</span>
+            </div>
+            <div class="analytics-card">
+                <span class="icon">✅</span>
+                <span class="stat" id="stat-total-right">0</span>
+                <span class="label">Total Right</span>
+            </div>
+            <div class="analytics-card">
+                <span class="icon">❌</span>
+                <span class="stat" id="stat-total-wrong">0</span>
+                <span class="label">Total Wrong</span>
+            </div>
+        </div>
+
+        <!-- Add Question Section -->
+        <div class="section" id="add-question-section">
+            <div class="section-title">Add Question</div>
+            <form id="question-form">
+                <div class="form-row">
+                    <label for="question-text">Question</label>
+                    <textarea id="question-text" required rows="2" placeholder="Enter your question..."></textarea>
+                </div>
+                <div class="form-row">
+                    <label for="question-type">Type</label>
+                    <select id="question-type" required>
+              <option value="mcq">Multiple Choice</option>
+              <option value="short">Short Answer</option>
+              <option value="truefalse">True/False</option>
+            </select>
+                </div>
+                <div class="form-row" id="mcq-options-row">
+                    <label>Options</label>
+                    <input type="text" class="mcq-option" placeholder="Option 1" required />
+                    <input type="text" class="mcq-option" placeholder="Option 2" required />
+                    <button type="button" class="btn btn-accent" id="add-mcq-option" style="padding: 7px 14px; font-size: 0.95em">
+              + Add Option
+            </button>
+                </div>
+                <div class="form-row">
+                    <label for="difficulty">Difficulty</label>
+                    <select id="difficulty" required>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+                </div>
+                <div class="form-row">
+                    <label for="timer">Timer (seconds)</label>
+                    <input type="number" id="timer" min="10" max="600" value="60" required />
+                </div>
+                <div style="text-align: right">
+                    <button type="submit" class="btn">Add Question</button>
+                </div>
+            </form>
+            <div id="questions-preview" style="margin-top: 18px"></div>
+        </div>
+
+        <!-- Create Quiz Section -->
+        <div class="section" id="create-quiz-section">
+            <div class="section-title">Create & Schedule Quiz</div>
+            <form id="quiz-form">
+                <div class="form-row">
+                    <label for="quiz-title">Quiz Title</label>
+                    <input type="text" id="quiz-title" required placeholder="e.g. Algebra Basics" />
+                </div>
+                <div class="form-row">
+                    <label for="quiz-date">Schedule Date/Time</label>
+                    <input type="datetime-local" id="quiz-date" required />
+                </div>
+                <div class="form-row">
+                    <label for="quiz-expiry">Expiry (minutes after start)</label>
+                    <input type="number" id="quiz-expiry" min="5" max="1440" value="60" required />
+                </div>
+                <div style="text-align: right">
+                    <button type="submit" class="btn btn-accent">Create Quiz</button>
+                </div>
+            </form>
+            <div id="quiz-code-section" style="margin-top: 18px; display: none">
+                <div class="code-box">
+                    <span>Quiz URL:</span>
+                    <span id="quiz-url"></span>
+                    <button class="btn btn-success" id="copy-url-btn" title="Copy URL">
+              Copy
+            </button>
+                </div>
+                <div class="code-box">
+                    <span>Secure Code:</span>
+                    <span id="quiz-code"></span>
+                    <button class="btn btn-success" id="copy-code-btn" title="Copy Code">
+              Copy
+            </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quizzes List Section -->
+        <div class="section" id="quizzes-list-section">
+            <div class="section-title">Created Quizzes</div>
+            <div style="color:#4a5a8a;font-size:1.05em;margin-bottom:8px;"><b>Note:</b> To delete or edit a quiz, please use the dashboard view.</div>
+            <table class="quiz-list" id="quiz-list-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Questions</th>
+                        <th>Scheduled</th>
+                        <th>Expiry</th>
+                        <th>Secure Code</th>
+                        <th>Status</th>
+                        <th>Start</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="quiz-list-body"></tbody>
+            </table>
+        </div>
+
+        <!-- Live Student Join Status Section -->
+        <div class="section" id="student-status-section">
+            <div class="section-title">Live Student Join Status</div>
+            <div class="student-status-list" id="student-status-list">
+                <!-- Student status will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Start Quiz -->
+    <div class="modal" id="start-quiz-modal">
+        <div class="modal-content">
+            <h2>Quiz Started!</h2>
+            <p>The quiz is now live. Students can join using the secure code.</p>
+            <button class="btn" onclick="closeModal('start-quiz-modal'); showLiveQuizMonitor(currentQuizIndex);">View Live Quiz Monitor</button>
+        </div>
+    </div>
+
+    <!-- Live Quiz Monitor (hidden by default) -->
+    <div class="dashboard-container" id="live-quiz-container" style="display: none">
+        <div class="dashboard-header">
+            <h1>Live Quiz Monitor</h1>
+            <img src="logo.png" alt="QuizSync Logo" class="logo" />
+        </div>
+        <button class="btn btn-accent" id="back-to-dashboard-from-live" style="margin-bottom:18px;">← Back to Dashboard</button>
+        
+        <div class="section" id="live-quiz-info-section">
+            <div class="section-title">Quiz Information</div>
+            <div id="live-quiz-details"></div>
+        </div>
+        
+        <div class="section" id="live-quiz-progress-section">
+            <div class="section-title">Live Question Progress</div>
+            <div id="current-question-display"></div>
+            <div class="progress-container" style="margin-top: 20px;">
+                <div class="progress-bar">
+                    <div id="question-timer-bar" style="width: 100%; background: var(--accent); height: 100%; transition: width 1s linear;"></div>
+                </div>
+                <div id="timer-display" style="font-size: 1.5rem; font-weight: bold; margin-top: 10px;">60</div>
+            </div>
+            <div id="question-stats" style="margin-top: 20px; display: flex; gap: 20px;">
+                <div class="analytics-card">
+                    <span class="icon">👨‍🎓</span>
+                    <span class="stat" id="students-answered">0</span>
+                    <span class="label">Students Answered</span>
+                </div>
+                <div class="analytics-card">
+                    <span class="icon">✅</span>
+                    <span class="stat" id="correct-answers">0</span>
+                    <span class="label">Correct Answers</span>
+                </div>
+                <div class="analytics-card">
+                    <span class="icon">❌</span>
+                    <span class="stat" id="wrong-answers">0</span>
+                    <span class="label">Wrong Answers</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" id="live-points-leaderboard-section">
+            <div class="section-title">Live Points Leaderboard</div>
+            <p style="margin-bottom: 15px;"><strong>Points System:</strong> Students earn points based on speed and accuracy. Faster correct answers earn more points!</p>
+            <table class="quiz-list" id="points-leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Student</th>
+                        <th>Points</th>
+                        <th>Correct</th>
+                        <th>Wrong</th>
+                        <th>Avg. Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="points-leaderboard-body"></tbody>
+            </table>
+        </div>
+        
+        <div class="section" id="quiz-navigation-section">
+            <div class="section-title">Quiz Navigation</div>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;" id="question-navigation-buttons">
+                <!-- Question navigation buttons will be added here -->
+            </div>
+            <div style="margin-top: 20px; display: flex; justify-content: space-between;">
+                <button class="btn btn-accent" id="prev-question-btn" disabled>Previous Question</button>
+                <button class="btn btn-accent" id="next-question-btn">Next Question</button>
+                <button class="btn btn-danger" id="end-quiz-btn">End Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Edit Quiz (future extension) -->
+    <div class="modal" id="edit-quiz-modal">
+        <div class="modal-content">
+            <h2>Edit Quiz (Coming Soon)</h2>
+            <p>Quiz editing will be available in a future update.</p>
+            <button class="btn" onclick="closeModal('edit-quiz-modal')">OK</button>
+        </div>
+    </div>
+
+    <!-- Results Page (hidden by default) -->
+    <div class="dashboard-container" id="results-container" style="display: none">
+        <div class="dashboard-header">
+            <h1>Quiz Results</h1>
+            <img src="logo.png" alt="QuizSync Logo" class="logo" />
+        </div>
+        <button class="btn btn-accent" id="back-to-dashboard" style="margin-bottom:18px;">← Back to Dashboard</button>
+        <div class="section" id="results-section">
+            <div class="section-title">Quiz Results Overview</div>
+            <div id="results-quiz-list"></div>
+            <div id="results-quiz-details" style="margin-top: 32px"></div>
+            <div id="results-student-breakdown" style="margin-top: 32px"></div>
+        </div>
+        <style>#results-container #quizzes-list-section { display: none !important; }</style>
+    </div>
+
+    <script>
+        // --- Data Storage (in-memory for demo) ---
+        let questions = [];
+        let quizzes = [];
+        let students = [{
+            name: 'Atharva',
+            status: 'offline'
+        }, {
+            name: 'Aarya',
+            status: 'offline'
+        }, {
+            name: 'Sameer',
+            status: 'offline'
+        }, {
+            name: 'Manas',
+            status: 'offline'
+        }, {
+            name: 'Yash',
+            status: 'offline'
+        }, {
+            name: 'Bhumika',
+            status: 'offline'
+        }];
+        
+        // Live quiz monitoring variables
+        let currentQuizIndex = -1;
+        let currentQuestionIndex = 0;
+        let questionTimer = null;
+        let questionTimeLeft = 0;
+        let studentPoints = [];
+        
+        // --- Helper Functions ---
+        function generateSecureCode() {
+            const chars =
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            let code = "";
+            for (let i = 0; i < 6; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        function generateQuizURL(code) {
+            return window.location.origin + "/quiz/" + code;
+        }
+
+        function formatDateTime(dt) {
+            if (!dt) return "-";
+            const d = new Date(dt);
+            return d.toLocaleString();
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove("active");
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.add("active");
+        }
+
+        // --- Add Question Logic ---
+        const questionForm = document.getElementById("question-form");
+        const questionsPreview = document.getElementById("questions-preview");
+        const mcqOptionsRow = document.getElementById("mcq-options-row");
+        const questionType = document.getElementById("question-type");
+        const addMcqOptionBtn = document.getElementById("add-mcq-option");
+
+        questionType.addEventListener("change", function() {
+            if (this.value === "mcq") {
+                mcqOptionsRow.style.display = "flex";
+            } else {
+                mcqOptionsRow.style.display = "none";
+            }
+        });
+        // Default show MCQ options
+        mcqOptionsRow.style.display = "flex";
+
+        addMcqOptionBtn.addEventListener("click", function() {
+            const optionInputs = mcqOptionsRow.querySelectorAll(".mcq-option");
+            if (optionInputs.length >= 6) return;
+            const newInput = document.createElement("input");
+            newInput.type = "text";
+            newInput.className = "mcq-option";
+            newInput.placeholder = `Option ${optionInputs.length + 1}`;
+            mcqOptionsRow.insertBefore(newInput, addMcqOptionBtn);
+            newInput.focus();
+        });
+
+        questionForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            const text = document.getElementById("question-text").value.trim();
+            const type = questionType.value;
+            const difficulty = document.getElementById("difficulty").value;
+            const timer = parseInt(document.getElementById("timer").value);
+            let options = [];
+            if (type === "mcq") {
+                options = Array.from(document.querySelectorAll(".mcq-option"))
+                    .map((i) => i.value.trim())
+                    .filter(Boolean);
+                if (options.length < 2) {
+                    alert("Please provide at least 2 options for MCQ.");
+                    return;
+                }
+            }
+            questions.push({
+                text,
+                type,
+                difficulty,
+                timer,
+                options
+            });
+            renderQuestionsPreview();
+            questionForm.reset();
+            // Reset MCQ options to 2
+            Array.from(document.querySelectorAll(".mcq-option")).forEach(
+                (el, idx) => {
+                    if (idx > 1) el.remove();
+                }
+            );
+            mcqOptionsRow.style.display = "flex";
+        });
+
+        function renderQuestionsPreview() {
+            if (questions.length === 0) {
+                questionsPreview.innerHTML = "<em>No questions added yet.</em>";
+                return;
+            }
+            questionsPreview.innerHTML =
+                "<b>Questions for this quiz:</b>" +
+                questions
+                .map(
+                    (q, idx) => `
+          <div class="question-card" style="animation-delay:${idx * 0.1}s;">
+            <span style="font-weight:600;">${q.text}</span>
+            <span class="badge ${q.difficulty}">${
+                q.difficulty.charAt(0).toUpperCase() + q.difficulty.slice(1)
+              }</span>
+            <span class="badge" style="background:var(--accent);">${
+              q.type
+            }</span>
+            <span class="badge" style="background:var(--gold);color:var(--primary-dark);">${
+              q.timer
+            }s</span>
+            <button class="remove-btn" title="Remove" onclick="removeQuestion(${idx})">✕</button>
+          </div>
+        `
+                )
+                .join("");
+        }
+        window.removeQuestion = function(idx) {
+            questions.splice(idx, 1);
+            renderQuestionsPreview();
+        };
+        renderQuestionsPreview();
+
+        // --- Create Quiz Logic ---
+        const quizForm = document.getElementById("quiz-form");
+        const quizCodeSection = document.getElementById("quiz-code-section");
+        const quizUrlSpan = document.getElementById("quiz-url");
+        const quizCodeSpan = document.getElementById("quiz-code");
+        const copyUrlBtn = document.getElementById("copy-url-btn");
+        const copyCodeBtn = document.getElementById("copy-code-btn");
+
+        quizForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            if (questions.length === 0) {
+                alert("Please add at least one question before creating a quiz.");
+                return;
+            }
+            const title = document.getElementById("quiz-title").value.trim();
+            const schedule = document.getElementById("quiz-date").value;
+            const expiry = parseInt(document.getElementById("quiz-expiry").value);
+            const code = generateSecureCode();
+            const url = generateQuizURL(code);
+            const quiz = {
+                title,
+                questions: [...questions],
+                schedule,
+                expiry,
+                code,
+                url,
+                status: "Scheduled",
+                students: [],
+            };
+            quizzes.push(quiz);
+            renderQuizList();
+            quizUrlSpan.textContent = url;
+            quizCodeSpan.textContent = code;
+            quizCodeSection.style.display = "block";
+            quizCodeSection.classList.remove("fade");
+            setTimeout(() => quizCodeSection.classList.add("fade"), 10);
+            questions = [];
+            renderQuestionsPreview();
+            quizForm.reset();
+        });
+        copyUrlBtn.addEventListener("click", function() {
+            navigator.clipboard.writeText(quizUrlSpan.textContent);
+            copyUrlBtn.textContent = "Copied!";
+            setTimeout(() => (copyUrlBtn.textContent = "Copy"), 1200);
+        });
+        copyCodeBtn.addEventListener("click", function() {
+            navigator.clipboard.writeText(quizCodeSpan.textContent);
+            copyCodeBtn.textContent = "Copied!";
+            setTimeout(() => (copyCodeBtn.textContent = "Copy"), 1200);
+        });
+
+        // --- Quizzes List Logic ---
+        const quizListBody = document.getElementById("quiz-list-body");
+
+        function getQuizStatus(quiz) {
+            const now = new Date();
+            const start = new Date(quiz.schedule);
+            const end = new Date(start.getTime() + quiz.expiry * 60000);
+            if (quiz.status === "Live") return {
+                label: "Live",
+                class: "live"
+            };
+            if (now < start) return {
+                label: "Scheduled",
+                class: "scheduled"
+            };
+            if (now > end) return {
+                label: "Expired",
+                class: "expired"
+            };
+            return {
+                label: "Scheduled",
+                class: "scheduled"
+            };
+        }
+
+        function renderQuizList() {
+            quizListBody.innerHTML = "";
+            if (quizzes.length === 0) {
+                quizListBody.innerHTML =
+                    '<tr><td colspan="9" style="text-align:center;color:#888;">No quizzes created yet.</td></tr>';
+                return;
+            }
+            quizzes.forEach((quiz, idx) => {
+                const status = getQuizStatus(quiz);
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+          <td>${quiz.title}</td>
+          <td>${quiz.questions.length}</td>
+          <td>${formatDateTime(quiz.schedule)}</td>
+          <td>${quiz.expiry} min</td>
+          <td><span style="font-family:monospace;">${quiz.code}</span></td>
+          <td><span class="badge ${status.class}">${status.label}</span></td>
+          <td><button class="btn btn-success" onclick="startQuiz(${idx})" ${
+            quiz.status === "Live" ? "disabled" : ""
+          }>Start</button></td>
+          <td><button class="btn btn-accent" onclick="editQuiz(${idx})" disabled>Edit</button></td>
+          <td><button class="btn btn-danger" onclick="deleteQuizByCode('${quiz.code}')">Delete</button></td>
+        `;
+                quizListBody.appendChild(tr);
+            });
+        }
+        window.startQuiz = function(idx) {
+            quizzes[idx].status = "Live";
+            currentQuizIndex = idx;
+            renderQuizList();
+            openModal("start-quiz-modal");
+            simulateStudentJoins();
+            
+            // Initialize student points for this quiz
+            studentPoints = students.map(student => ({
+                name: student.name,
+                points: 0,
+                correct: 0,
+                wrong: 0,
+                avgTime: 0,
+                totalTime: 0,
+                questionsAnswered: 0,
+                status: 'online'
+            }));
+            
+            // Initialize quiz results structure if not already done
+            if (!quizzes[idx].results) {
+                quizzes[idx].results = quizzes[idx].questions.map(() => ({
+                    right: 0,
+                    wrong: 0
+                }));
+            }
+            
+            if (!quizzes[idx].studentResults) {
+                quizzes[idx].studentResults = students.map(() => {
+                    let answers = quizzes[idx].questions.map(() => false);
+                    return {
+                        answers,
+                        totalRight: 0,
+                        totalWrong: 0,
+                        answerTimes: quizzes[idx].questions.map(() => 0)
+                    };
+                });
+            }
+        };
+        window.editQuiz = function(idx) {
+            openModal("edit-quiz-modal");
+        };
+        window.deleteQuizByCode = function(code) {
+            const idx = quizzes.findIndex(q => q.code === code);
+            if (idx !== -1 && confirm("Are you sure you want to delete this quiz?")) {
+                quizzes.splice(idx, 1);
+                renderQuizList();
+            }
+        };
+        renderQuizList();
+
+        // --- Live Quiz Monitor Logic ---
+        function showLiveQuizMonitor(quizIdx) {
+            if (quizIdx < 0 || quizIdx >= quizzes.length) return;
+            
+            // Hide other containers, show live quiz container
+            dashboardContainer.style.display = "none";
+            resultsContainer.style.display = "none";
+            document.getElementById("live-quiz-container").style.display = "";
+            
+            const quiz = quizzes[quizIdx];
+            currentQuestionIndex = 0;
+            
+            // Display quiz details
+            document.getElementById("live-quiz-details").innerHTML = `
+                <h3>${quiz.title}</h3>
+                <p><strong>Total Questions:</strong> ${quiz.questions.length}</p>
+                <p><strong>Secure Code:</strong> <span style="font-family: monospace;">${quiz.code}</span></p>
+                <p><strong>Status:</strong> <span class="badge live">LIVE</span></p>
+            `;
+            
+            // Set up question navigation buttons
+            const navButtonsContainer = document.getElementById("question-navigation-buttons");
+            navButtonsContainer.innerHTML = '';
+            quiz.questions.forEach((_, idx) => {
+                const btn = document.createElement("button");
+                btn.className = "btn" + (idx === 0 ? " btn-accent" : "");
+                btn.textContent = `Q${idx + 1}`;
+                btn.onclick = () => navigateToQuestion(idx);
+                navButtonsContainer.appendChild(btn);
+            });
+            
+            // Set up navigation button handlers
+            document.getElementById("prev-question-btn").onclick = () => navigateToQuestion(currentQuestionIndex - 1);
+            document.getElementById("next-question-btn").onclick = () => navigateToQuestion(currentQuestionIndex + 1);
+            document.getElementById("end-quiz-btn").onclick = endLiveQuiz;
+            document.getElementById("back-to-dashboard-from-live").onclick = () => {
+                document.getElementById("live-quiz-container").style.display = "none";
+                showDashboard();
+            };
+            
+            // Display first question
+            displayCurrentQuestion();
+            updateLeaderboard();
+            
+            // Start simulating student answers
+            simulateStudentAnswers();
+        }
+        
+        function displayCurrentQuestion() {
+            if (currentQuizIndex < 0) return;
+            
+            const quiz = quizzes[currentQuizIndex];
+            if (currentQuestionIndex < 0 || currentQuestionIndex >= quiz.questions.length) return;
+            
+            const question = quiz.questions[currentQuestionIndex];
+            
+            // Update question display
+            document.getElementById("current-question-display").innerHTML = `
+                <h3>Question ${currentQuestionIndex + 1} of ${quiz.questions.length}</h3>
+                <div style="font-size: 1.2rem; margin: 15px 0; padding: 15px; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(50,67,118,0.06);">
+                    ${question.text}
+                </div>
+                ${question.type === 'mcq' ? `
+                    <div style="margin-top: 15px;">
+                        <h4>Options:</h4>
+                        <ul style="list-style-type: none; padding: 0;">
+                            ${question.options.map((opt, idx) => `
+                                <li style="margin: 8px 0; padding: 8px 15px; background: var(--bg-light); border-radius: 8px;">
+                                    ${String.fromCharCode(65 + idx)}. ${opt}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                ` : ''}
+                <div style="margin-top: 15px;">
+                    <span class="badge" style="background: var(--accent);">${question.type.toUpperCase()}</span>
+                    <span class="badge" style="background: var(--gold); color: var(--primary-dark);">Timer: ${question.timer}s</span>
+                    <span class="badge ${question.difficulty}">${question.difficulty.charAt(0).toUpperCase() + question.difficulty.slice(1)}</span>
+                </div>
+            `;
+            
+            // Update navigation buttons
+            document.getElementById("prev-question-btn").disabled = currentQuestionIndex === 0;
+            document.getElementById("next-question-btn").disabled = currentQuestionIndex === quiz.questions.length - 1;
+            
+            // Update navigation button styling
+            const navButtons = document.querySelectorAll("#question-navigation-buttons button");
+            navButtons.forEach((btn, idx) => {
+                btn.className = "btn" + (idx === currentQuestionIndex ? " btn-accent" : "");
+            });
+            
+            // Reset and start timer
+            if (questionTimer) clearInterval(questionTimer);
+            questionTimeLeft = question.timer;
+            document.getElementById("timer-display").textContent = questionTimeLeft;
+            document.getElementById("question-timer-bar").style.width = "100%";
+            
+            questionTimer = setInterval(() => {
+                questionTimeLeft--;
+                document.getElementById("timer-display").textContent = questionTimeLeft;
+                const percentage = (questionTimeLeft / question.timer) * 100;
+                document.getElementById("question-timer-bar").style.width = `${percentage}%`;
+                
+                if (questionTimeLeft <= 0) {
+                    clearInterval(questionTimer);
+                }
+            }, 1000);
+            
+            // Reset question stats
+            document.getElementById("students-answered").textContent = "0";
+            document.getElementById("correct-answers").textContent = "0";
+            document.getElementById("wrong-answers").textContent = "0";
+        }
+        
+        function navigateToQuestion(idx) {
+            if (currentQuizIndex < 0) return;
+            
+            const quiz = quizzes[currentQuizIndex];
+            if (idx < 0 || idx >= quiz.questions.length) return;
+            
+            currentQuestionIndex = idx;
+            displayCurrentQuestion();
+        }
+        
+        function updateLeaderboard() {
+            const leaderboardBody = document.getElementById("points-leaderboard-body");
+            if (!leaderboardBody) return;
+            
+            // Sort students by points
+            const sortedStudents = [...studentPoints].sort((a, b) => b.points - a.points);
+            
+            leaderboardBody.innerHTML = sortedStudents.map((student, idx) => `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td>${student.name}</td>
+                    <td><strong>${student.points}</strong></td>
+                    <td>${student.correct}</td>
+                    <td>${student.wrong}</td>
+                    <td>${student.questionsAnswered > 0 ? (student.avgTime).toFixed(1) + 's' : '-'}</td>
+                    <td><span class="badge ${student.status === 'online' ? 'live' : 'expired'}">${student.status}</span></td>
+                </tr>
+            `).join('');
+        }
+        
+        function simulateStudentAnswers() {
+            if (currentQuizIndex < 0) return;
+            
+            const quiz = quizzes[currentQuizIndex];
+            const question = quiz.questions[currentQuestionIndex];
+            
+            // Reset counters for this question
+            let studentsAnswered = 0;
+            let correctAnswers = 0;
+            let wrongAnswers = 0;
+            
+            // Simulate student answers over time
+            const maxTime = question.timer * 0.9; // 90% of available time
+            
+            students.forEach((student, studentIdx) => {
+                // Random time to answer (between 20% and 90% of available time)
+                const answerTime = Math.floor(Math.random() * (maxTime * 0.7) + (maxTime * 0.2));
+                
+                setTimeout(() => {
+                    // 60% chance of correct answer
+                    const isCorrect = Math.random() < 0.6;
+                    
+                    // Update student results
+                    if (!quiz.studentResults[studentIdx].answerTimes) {
+                        quiz.studentResults[studentIdx].answerTimes = [];
+                    }
+                    quiz.studentResults[studentIdx].answers[currentQuestionIndex] = isCorrect;
+                    quiz.studentResults[studentIdx].answerTimes[currentQuestionIndex] = answerTime;
+                    
+                    if (isCorrect) {
+                        quiz.studentResults[studentIdx].totalRight++;
+                        quiz.results[currentQuestionIndex].right++;
+                        correctAnswers++;
+                        
+                        // Award points based on speed (faster = more points)
+                        // Max 100 points for immediate answer, minimum 30 points
+                        const speedFactor = 1 - (answerTime / maxTime);
+                        const points = Math.floor(30 + (speedFactor * 70));
+                        studentPoints[studentIdx].points += points;
+                        studentPoints[studentIdx].correct++;
+                    } else {
+                        quiz.studentResults[studentIdx].totalWrong++;
+                        quiz.results[currentQuestionIndex].wrong++;
+                        wrongAnswers++;
+                        studentPoints[studentIdx].wrong++;
+                        
+                        // Wrong answers get 5 points for participation
+                        studentPoints[studentIdx].points += 5;
+                    }
+                    
+                    // Update average time
+                    studentPoints[studentIdx].questionsAnswered++;
+                    studentPoints[studentIdx].totalTime += answerTime;
+                    studentPoints[studentIdx].avgTime = studentPoints[studentIdx].totalTime / studentPoints[studentIdx].questionsAnswered;
+                    
+                    // Update UI
+                    studentsAnswered++;
+                    document.getElementById("students-answered").textContent = studentsAnswered;
+                    document.getElementById("correct-answers").textContent = correctAnswers;
+                    document.getElementById("wrong-answers").textContent = wrongAnswers;
+                    
+                    // Update leaderboard
+                    updateLeaderboard();
+                    
+                }, answerTime * 1000); // Convert to milliseconds
+            });
+        }
+        
+        function endLiveQuiz() {
+            if (confirm("Are you sure you want to end this quiz?")) {
+                if (questionTimer) clearInterval(questionTimer);
+                
+                // Update quiz status to "Completed"
+                if (currentQuizIndex >= 0 && currentQuizIndex < quizzes.length) {
+                    quizzes[currentQuizIndex].status = "Completed";
+                    renderQuizList(); // Update the quiz list to show new status
+                }
+                
+                // Stop any ongoing simulations
+                Array.from(document.querySelectorAll('.student-status')).forEach(el => {
+                    const studentName = el.textContent.split('(')[0].trim();
+                    const studentIndex = students.findIndex(s => s.name === studentName);
+                    if (studentIndex >= 0) {
+                        students[studentIndex].status = 'offline';
+                    }
+                });
+                renderStudentStatus();
+                
+                // Hide live quiz container and show results
+                document.getElementById("live-quiz-container").style.display = "none";
+                showResults();
+                
+                // Add a message to the results page about the completed quiz
+                const resultsQuizList = document.getElementById("results-quiz-list");
+                if (resultsQuizList) {
+                    const completedMessage = document.createElement("div");
+                    completedMessage.className = "badge live";
+                    completedMessage.style.display = "block";
+                    completedMessage.style.marginBottom = "15px";
+                    completedMessage.style.padding = "10px";
+                    completedMessage.style.textAlign = "center";
+                    completedMessage.textContent = `Quiz "${quizzes[currentQuizIndex].title}" has been ended. View results below.`;
+                    resultsQuizList.prepend(completedMessage);
+                    
+                    // Auto-select the completed quiz in results view
+                    setTimeout(() => {
+                        renderResultsQuizDetails(currentQuizIndex);
+                    }, 100);
+                }
+            }
+        }
+
+        // --- Student Join Status Logic (Simulated) ---
+        const studentStatusList = document.getElementById("student-status-list");
+
+        function renderStudentStatus() {
+            studentStatusList.innerHTML = "";
+            students.forEach((stu) => {
+                const div = document.createElement("div");
+                div.className =
+                    "student-status " +
+                    (stu.status === "online" ? "online" : "offline");
+                div.innerHTML = `<span class="student-dot"></span> ${stu.name} <span style="font-size:0.9em;">(${stu.status})</span>`;
+                studentStatusList.appendChild(div);
+            });
+        }
+
+        function simulateStudentJoins() {
+            students.forEach((stu) => (stu.status = "offline"));
+            renderStudentStatus();
+            let i = 0;
+            const joinInterval = setInterval(() => {
+                if (i >= students.length) {
+                    clearInterval(joinInterval);
+                    return;
+                }
+                students[i].status = "online";
+                renderStudentStatus();
+                i++;
+            }, 900);
+        }
+        renderStudentStatus();
+
+        // --- Back to Dashboard Button Logic ---
+        document.getElementById('back-to-dashboard').onclick = function() {
+            showDashboard();
+            updateDashboardAnalytics();
+        };
+        // --- SPA Navigation ---
+        const dashboardContainer = document.querySelector(".dashboard-container");
+        const resultsContainer = document.getElementById("results-container");
+        const navDashboard = document.getElementById("nav-dashboard");
+        const navResults = document.getElementById("nav-results");
+
+        function showDashboard() {
+            dashboardContainer.style.display = "";
+            resultsContainer.style.display = "none";
+            document.getElementById("live-quiz-container").style.display = "none";
+            navDashboard.classList.add("btn-success");
+            navResults.classList.remove("btn-success");
+            updateDashboardAnalytics();
+        }
+
+        function showResults() {
+            dashboardContainer.style.display = "none";
+            resultsContainer.style.display = "";
+            document.getElementById("live-quiz-container").style.display = "none";
+            navDashboard.classList.remove("btn-success");
+            navResults.classList.add("btn-success");
+            renderResultsQuizList();
+            updateDashboardAnalytics();
+        }
+        navDashboard.onclick = showDashboard;
+        navResults.onclick = showResults;
+
+        // --- Simulate Student Answers on Start Quiz (now with per-student data) ---
+        function simulateQuizResults(idx) {
+            // This function is now replaced by the more interactive simulateStudentAnswers
+            // We'll keep it for backward compatibility but make it call our new function
+            const quiz = quizzes[idx];
+            
+            if (!quiz.results) {
+                quiz.results = quiz.questions.map(() => ({
+                    right: 0,
+                    wrong: 0
+                }));
+            }
+            
+            if (!quiz.studentResults) {
+                quiz.studentResults = students.map(() => {
+                    let answers = quiz.questions.map(() => Math.random() < 0.6);
+                    let totalRight = answers.filter((x) => x).length;
+                    let totalWrong = answers.length - totalRight;
+                    return {
+                        answers,
+                        totalRight,
+                        totalWrong,
+                        answerTimes: quiz.questions.map(() => Math.floor(Math.random() * 30) + 10) // Random times between 10-40s
+                    };
+                });
+            }
+        }
+
+        // --- Results Page Logic (with grouped bar, line chart, sorting, filter, export) ---
+        function renderResultsQuizList() {
+            const listDiv = document.getElementById("results-quiz-list");
+            const detailsDiv = document.getElementById("results-quiz-details");
+            const breakdownDiv = document.getElementById("results-student-breakdown");
+            listDiv.innerHTML = '';
+            if (quizzes.length === 0) {
+                listDiv.innerHTML = '<em>No quizzes available. Please create and start a quiz to see analytics.</em>';
+                detailsDiv.innerHTML = '';
+                breakdownDiv.innerHTML = '';
+                return;
+            }
+            // Quiz selection buttons
+            quizzes.forEach((quiz, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-accent';
+                btn.style.margin = '0 10px 10px 0';
+                btn.textContent = quiz.title + ' (' + (quiz.status || 'Scheduled') + ')';
+                btn.onclick = () => renderResultsQuizDetails(idx);
+                listDiv.appendChild(btn);
+            });
+            // Show analytics for the most recent quiz by default
+            renderResultsQuizDetails(quizzes.length - 1);
+        }
+
+        function renderResultsQuizDetails(idx, sortBy = 'right', highlightStudent = null) {
+            const quiz = quizzes[idx];
+            const detailsDiv = document.getElementById("results-quiz-details");
+            const breakdownDiv = document.getElementById("results-student-breakdown");
+            if (!quiz.results) {
+                detailsDiv.innerHTML = "<em>No results available for this quiz yet. Start the quiz to see results.</em>";
+                breakdownDiv.innerHTML = "";
+                return;
+            }
+            let html = `<h3 style=\"margin-bottom:18px;\">${quiz.title}</h3>`;
+            // --- Large Pie Chart ---
+            let totalRight = 0,
+                totalWrong = 0;
+            if (quiz.studentResults && Array.isArray(quiz.studentResults)) {
+                quiz.studentResults.forEach(stu => {
+                    if (Array.isArray(stu.answers)) {
+                        stu.answers.forEach(ans => {
+                            if (ans) totalRight++;
+                            else totalWrong++;
+                        });
+                    }
+                });
+            } else if (quiz.results) {
+                totalRight = quiz.results.reduce((a, b) => a + b.right, 0);
+                totalWrong = quiz.results.reduce((a, b) => a + b.wrong, 0);
+            }
+            let total = totalRight + totalWrong;
+            let rightPct = total ? (totalRight / total) * 100 : 0;
+            let wrongPct = total ? (totalWrong / total) * 100 : 0;
+
+            function describeArc(cx, cy, r, startAngle, endAngle) {
+                const start = polarToCartesian(cx, cy, r, endAngle);
+                const end = polarToCartesian(cx, cy, r, startAngle);
+                const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+                return [
+                    "M", start.x, start.y,
+                    "A", r, r, 0, largeArcFlag, 0, end.x, end.y,
+                    "L", cx, cy,
+                    "Z"
+                ].join(" ");
+            }
+
+            function polarToCartesian(cx, cy, r, angle) {
+                var rad = (angle - 90) * Math.PI / 180.0;
+                return {
+                    x: cx + r * Math.cos(rad),
+                    y: cy + r * Math.sin(rad)
+                };
+            }
+            let rightAngle = (rightPct / 100) * 360;
+            let pieHtml = `<svg id=\"piechart-svg\" width=\"340\" height=\"340\" viewBox=\"0 0 340 340\" style=\"cursor:pointer;max-width:100%;height:auto;display:block;margin:0 auto;\">
+                <g>
+                    <path d=\"${describeArc(170,170,150,0,rightAngle)}\" fill=\"var(--teal)\" data-tooltip=\"Right: ${totalRight} (${rightPct.toFixed(1)}%)\"/>
+                    <path d=\"${describeArc(170,170,150,rightAngle,360)}\" fill=\"var(--pink)\" data-tooltip=\"Wrong: ${totalWrong} (${wrongPct.toFixed(1)}%)\"/>
+                </g>
+                <text x=\"170\" y=\"170\" text-anchor=\"middle\" dy=\".3em\" font-size=\"2.6em\" font-weight=\"bold\" fill=\"#222\">${total}</text>
+                <text x=\"170\" y=\"200\" text-anchor=\"middle\" font-size=\"1.2em\" fill=\"#888\">Attempts</text>
+                <text x=\"170\" y=\"70\" text-anchor=\"middle\" font-size=\"1.3em\" fill=\"var(--teal)\">${rightPct.toFixed(1)}%</text>
+                <text x=\"170\" y=\"310\" text-anchor=\"middle\" font-size=\"1.3em\" fill=\"var(--pink)\">${wrongPct.toFixed(1)}%</text>
+            </svg>`;
+            html += `<div style=\"display:flex;align-items:center;gap:48px;margin-bottom:32px;flex-wrap:wrap;justify-content:center;\">
+                <div style=\"width:360px;min-width:320px;max-width:100vw;height:auto;position:relative;\">
+                    ${pieHtml}
+                    <div style=\"position:absolute;top:320px;left:50%;transform:translateX(-50%);display:flex;gap:24px;align-items:center;font-size:1.1em;\">
+                        <span style=\"display:flex;align-items:center;gap:8px;\"><span style=\"display:inline-block;width:22px;height:22px;background:var(--teal);border-radius:4px;\"></span>Right</span>
+                        <span style=\"display:flex;align-items:center;gap:8px;\"><span style=\"display:inline-block;width:22px;height:22px;background:var(--pink);border-radius:4px;\"></span>Wrong</span>
+                    </div>
+                    <div id=\"pie-tooltip\" style=\"display:none;position:absolute;left:50%;top:20px;transform:translateX(-50%);background:#fff;border:2px solid var(--accent-light);padding:10px 22px;border-radius:12px;box-shadow:0 4px 16px rgba(50,67,118,0.13);font-size:1.15em;z-index:10;pointer-events:none;\"></div>
+                    <button class=\"btn btn-accent\" style=\"position:absolute;right:0;top:0;z-index:2;\" onclick=\"exportChartImage('piechart-svg','piechart.png')\">Export Pie as Image</button>
+                </div>
+                <div style=\"min-width:220px;\">
+                    <span class=\"badge live\" style=\"font-size:1.2em;\">Right: ${totalRight}</span>
+                    <span class=\"badge expired\" style=\"font-size:1.2em;\">Wrong: ${totalWrong}</span>
+                    <div style=\"margin-top:18px;\">
+                        <button class=\"btn btn-success\" onclick=\"exportQuizSummaryCSV(${idx})\">Export Summary CSV</button>
+                        <button class=\"btn btn-accent\" onclick=\"renderStudentBreakdown(${idx})\">View Student Breakdown</button>
+                        <button class=\"btn btn-accent\" onclick=\"exportStudentBreakdownCSV(${idx})\">Export Student CSV</button>
+                        <button class=\"btn btn-accent\" onclick=\"renderLeaderboard(${idx},'right',${highlightStudent===null?"null":highlightStudent})\">View Leaderboard</button>
+                        <button class=\"btn btn-accent\" onclick=\"exportLeaderboardImage(${idx})\">Export Leaderboard as Image</button>
+                    </div>
+                </div>
+            </div>`;
+
+            // --- Leaderboard Bar Graph with Sorting and Filter ---
+            if (quiz.studentResults) {
+                let leaderboard = quiz.studentResults.map((stu, i) => ({
+                    name: students[i].name,
+                    right: stu.totalRight,
+                    wrong: stu.totalWrong,
+                    idx: i
+                }));
+                if (sortBy === 'right') leaderboard.sort((a, b) => b.right - a.right);
+                if (sortBy === 'wrong') leaderboard.sort((a, b) => b.wrong - a.wrong);
+                if (sortBy === 'name') leaderboard.sort((a, b) => a.name.localeCompare(b.name));
+                let maxRight = Math.max(...leaderboard.map(s => s.right), 1);
+                html += `<div style='margin:32px 0 18px 0;'>
+                    <h3 style='margin-bottom:12px;'>Leaderboard
+                        <span style='font-size:0.9em;font-weight:400;margin-left:18px;'>Sort by:
+                            <a href='#' onclick='renderLeaderboard(${idx},"right",${highlightStudent===null?"null":highlightStudent})' style='color:var(--teal);text-decoration:${sortBy==="right"?"underline":"none"};margin:0 6px;'>Right</a>|
+                            <a href='#' onclick='renderLeaderboard(${idx},"wrong",${highlightStudent===null?"null":highlightStudent})' style='color:var(--pink);text-decoration:${sortBy==="wrong"?"underline":"none"};margin:0 6px;'>Wrong</a>|
+                            <a href='#' onclick='renderLeaderboard(${idx},"name",${highlightStudent===null?"null":highlightStudent})' style='color:var(--accent);text-decoration:${sortBy==="name"?"underline":"none"};margin:0 6px;'>Name</a>
+                        </span>
+                    </h3>
+                    <div style='width:100%;max-width:500px;position:relative;'>
+                        <svg id='leaderboard-svg' width='100%' height='${leaderboard.length*38}' viewBox='0 0 500 ${leaderboard.length*38}'>
+                            ${leaderboard.map((stu, i) => `
+                                <g class='leaderbar' data-tooltip="${stu.name}: ${stu.right} right, ${stu.wrong} wrong">
+                                    <text x='10' y='${38*i+25}' font-size='1em' fill='${highlightStudent===stu.idx?'var(--gold)':'#222'}' font-weight='bold' style='cursor:pointer;' onclick='renderResultsQuizDetails(${idx},"${sortBy}",${stu.idx})'>${stu.name}</text>
+                                    <rect x='110' y='${38*i+10}' width='${stu.right/maxRight*340}' height='18' fill='${highlightStudent===stu.idx?'var(--gold)':'var(--teal)'}' rx='6' />
+                                    <text x='${120+stu.right/maxRight*340}' y='${38*i+25}' font-size='1em' fill='${highlightStudent===stu.idx?'var(--gold)':'var(--teal)'}' font-weight='bold'>${stu.right}</text>
+                                </g>
+                            `).join('')}
+                        </svg>
+                        <div id="leaderboard-tooltip" style="display:none;position:absolute;left:0;top:0;background:#fff;border:1.5px solid var(--accent-light);padding:6px 14px;border-radius:8px;box-shadow:0 2px 8px rgba(50,67,118,0.10);font-size:0.98em;z-index:10;pointer-events:none;"></div>
+                    </div>
+                </div>`;
+            }
+
+            // --- Grouped Bar Chart: Right/Wrong for Each Student per Question ---
+            if (quiz.studentResults) {
+                html += `<div style='margin:32px 0 18px 0;'>
+                    <h3 style='margin-bottom:12px;'>Grouped Bar Chart: Right/Wrong per Student per Question</h3>
+                    <div style='width:100%;max-width:700px;overflow-x:auto;position:relative;'>
+                        <svg id='groupedbar-svg' width='700' height='${quiz.questions.length*38}' viewBox='0 0 700 ${quiz.questions.length*38}'>
+                            ${quiz.questions.map((q, qidx) => {
+                                return quiz.studentResults.map((stu, sidx) => {
+                                    let color = stu.answers[qidx] ? (highlightStudent===sidx?'var(--gold)':'var(--teal)') : (highlightStudent===sidx?'#fbbf24aa':'var(--pink)');
+                                    return `
+                                        <g>
+                                            <text x='10' y='${38*qidx+25}' font-size='0.95em' fill='#222' font-weight='bold'>Q${qidx+1}</text>
+                                            <rect x='${100+60*sidx}' y='${38*qidx+10}' width='50' height='18' fill='${color}' rx='6' data-tooltip='${students[sidx].name}: ${stu.answers[qidx] ? "Right" : "Wrong"}'/>
+                                            <text x='${125+60*sidx}' y='${38*qidx+25}' font-size='0.9em' fill='${color}' font-weight='bold'>${stu.answers[qidx] ? '✔' : '✘'}</text>
+                                        </g>
+                                    `;
+                                }).join('');
+                            }).join('')}
+                        </svg>
+                        <div id="groupedbar-tooltip" style="display:none;position:absolute;left:0;top:0;background:#fff;border:1.5px solid var(--accent-light);padding:6px 14px;border-radius:8px;box-shadow:0 2px 8px rgba(50,67,118,0.10);font-size:0.98em;z-index:10;pointer-events:none;"></div>
+                        <button class="btn btn-accent" style="position:absolute;right:0;top:0;" onclick="exportChartImage('groupedbar-svg','groupedbar.png')">Export Grouped Bar as Image</button>
+                    </div>
+                </div>`;
+            }
+
+            // --- Line Chart: Right/Wrong Trends per Question ---
+            html += `<div style='margin:32px 0 18px 0;'>
+                <h3 style='margin-bottom:12px;'>Line Chart: Right/Wrong Trends per Question</h3>
+                <div style='width:100%;max-width:700px;overflow-x:auto;position:relative;'>
+                    <svg id='linechart-svg' width='700' height='220' viewBox='0 0 700 220'>
+                        <polyline fill='none' stroke='var(--teal)' stroke-width='3' points='${quiz.results.map((r,i)=>`${50+i*(600/(quiz.results.length-1))},${200-(r.right/(r.right+r.wrong||1))*180}`).join(' ')}' />
+                        <polyline fill='none' stroke='var(--pink)' stroke-width='3' points='${quiz.results.map((r,i)=>`${50+i*(600/(quiz.results.length-1))},${200-(r.wrong/(r.right+r.wrong||1))*180}`).join(' ')}' />
+                        ${quiz.results.map((r,i)=>`
+                            <circle cx='${50+i*(600/(quiz.results.length-1))}' cy='${200-(r.right/(r.right+r.wrong||1))*180}' r='5' fill='var(--teal)' data-tooltip='Q${i+1} Right: ${r.right}'/>
+                            <circle cx='${50+i*(600/(quiz.results.length-1))}' cy='${200-(r.wrong/(r.right+r.wrong||1))*180}' r='5' fill='var(--pink)' data-tooltip='Q${i+1} Wrong: ${r.wrong}'/>
+                        `).join('')}
+                        <text x='10' y='30' font-size='0.95em' fill='var(--teal)'>Right</text>
+                        <text x='10' y='50' font-size='0.95em' fill='var(--pink)'>Wrong</text>
+                        <text x='650' y='215' font-size='0.9em' fill='#888'>Questions →</text>
+                    </svg>
+                    <div id="linechart-tooltip" style="display:none;position:absolute;left:0;top:0;background:#fff;border:1.5px solid var(--accent-light);padding:6px 14px;border-radius:8px;box-shadow:0 2px 8px rgba(50,67,118,0.10);font-size:0.98em;z-index:10;pointer-events:none;"></div>
+                    <button class="btn btn-accent" style="position:absolute;right:0;top:0;" onclick="exportChartImage('linechart-svg','linechart.png')">Export Line Chart as Image</button>
+                </div>
+            </div>`;
+
+            quiz.questions.forEach((q, qidx) => {
+                const res = quiz.results[qidx];
+                const totalQ = res.right + res.wrong;
+                html += `
+                    <div class="section" style="margin-bottom:18px;animation-delay:${qidx*0.1}s;">
+                        <div style="font-weight:600;margin-bottom:8px;">Q${qidx+1}: ${q.text}</div>
+                        <div style="display:flex;align-items:center;gap:18px;">
+                            <div style="flex:1;">
+                                <div class="bar-chart" style="display:flex;align-items:flex-end;height:60px;gap:18px;">
+                                    <div class="bar bar-right" style="height:${(res.right/totalQ)*100||0}%;background:var(--teal);width:40px;transition:height 1s;"></div>
+                                    <div class="bar bar-wrong" style="height:${(res.wrong/totalQ)*100||0}%;background:var(--pink);width:40px;transition:height 1s;"></div>
+                                </div>
+                                <div style="display:flex;gap:18px;margin-top:6px;">
+                                    <span class="badge live">Right: ${res.right}</span>
+                                    <span class="badge expired">Wrong: ${res.wrong}</span>
+                                    <span class="badge scheduled">Total: ${totalQ}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            detailsDiv.innerHTML = html;
+            breakdownDiv.innerHTML = '';
+
+            // --- Pie Chart Tooltip Logic ---
+            const pie = document.getElementById('piechart-svg');
+            const pieTooltip = document.getElementById('pie-tooltip');
+            if (pie && pieTooltip) {
+                pie.addEventListener('mousemove', function(e) {
+                    const target = e.target;
+                    if (target.tagName === 'path' && target.dataset.tooltip) {
+                        pieTooltip.textContent = target.dataset.tooltip;
+                        pieTooltip.style.display = 'block';
+                    } else {
+                        pieTooltip.style.display = 'none';
+                    }
+                });
+                pie.addEventListener('mouseleave', function() {
+                    pieTooltip.style.display = 'none';
+                });
+            }
+
+            // --- Leaderboard Tooltip Logic ---
+            const lsvg = document.getElementById('leaderboard-svg');
+            const ltt = document.getElementById('leaderboard-tooltip');
+            if (lsvg && ltt) {
+                lsvg.addEventListener('mousemove', function(e) {
+                    let g = e.target.closest('.leaderbar');
+                    if (g && g.dataset.tooltip) {
+                        const svgRect = lsvg.getBoundingClientRect();
+                        ltt.textContent = g.dataset.tooltip;
+                        ltt.style.display = 'block';
+                        ltt.style.left = (e.clientX - svgRect.left + 10) + 'px';
+                        ltt.style.top = (e.clientY - svgRect.top - 10) + 'px';
+                    } else {
+                        ltt.style.display = 'none';
+                    }
+                });
+                lsvg.addEventListener('mouseleave', function() {
+                    ltt.style.display = 'none';
+                });
+            }
+
+            // --- Grouped Bar Tooltip Logic ---
+            const gsvg = document.getElementById('groupedbar-svg');
+            const gtt = document.getElementById('groupedbar-tooltip');
+            if (gsvg && gtt) {
+                gsvg.addEventListener('mousemove', function(e) {
+                    let rect = e.target.closest('rect');
+                    if (rect && rect.dataset.tooltip) {
+                        const svgRect = gsvg.getBoundingClientRect();
+                        gtt.textContent = rect.dataset.tooltip;
+                        gtt.style.display = 'block';
+                        gtt.style.left = (e.clientX - svgRect.left + 10) + 'px';
+                        gtt.style.top = (e.clientY - svgRect.top - 10) + 'px';
+                    } else {
+                        gtt.style.display = 'none';
+                    }
+                });
+                gsvg.addEventListener('mouseleave', function() {
+                    gtt.style.display = 'none';
+                });
+            }
+
+            // --- Line Chart Tooltip Logic ---
+            const lcsvg = document.getElementById('linechart-svg');
+            const lctt = document.getElementById('linechart-tooltip');
+            if (lcsvg && lctt) {
+                lcsvg.addEventListener('mousemove', function(e) {
+                    let circ = e.target.closest('circle');
+                    if (circ && circ.dataset.tooltip) {
+                        const svgRect = lcsvg.getBoundingClientRect();
+                        lctt.textContent = circ.dataset.tooltip;
+                        lctt.style.display = 'block';
+                        lctt.style.left = (e.clientX - svgRect.left + 10) + 'px';
+                        lctt.style.top = (e.clientY - svgRect.top - 10) + 'px';
+                    } else {
+                        lctt.style.display = 'none';
+                    }
+                });
+                lcsvg.addEventListener('mouseleave', function() {
+                    lctt.style.display = 'none';
+                });
+            }
+        }
+
+        // --- Leaderboard Render Helper for Sorting/Filter ---
+        function renderLeaderboard(idx, sortBy = 'right', highlightStudent = null) {
+            renderResultsQuizDetails(idx, sortBy, highlightStudent);
+        }
+
+        // --- Export Any Chart as Image ---
+        function exportChartImage(svgId, filename) {
+            const svg = document.getElementById(svgId);
+            if (!svg) return alert('Chart not visible!');
+            const serializer = new XMLSerializer();
+            let source = serializer.serializeToString(svg);
+            if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
+                source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+            }
+            const img = new window.Image();
+            const svg64 = window.btoa(unescape(encodeURIComponent(source)));
+            const image64 = 'data:image/svg+xml;base64,' + svg64;
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                canvas.width = svg.viewBox.baseVal.width || svg.width.baseVal.value || 500;
+                canvas.height = svg.viewBox.baseVal.height || svg.height.baseVal.value || 300;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0,0,canvas.width,canvas.height);
+                ctx.drawImage(img,0,0);
+                const a = document.createElement('a');
+                a.download = filename;
+                a.href = canvas.toDataURL('image/png');
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(()=>document.body.removeChild(a),100);
+            };
+            img.src = image64;
+        }
+
+        // --- Analytics Card Animated Counters ---
+        function animateStat(id, value) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            let start = 0;
+            let end = value;
+            let duration = 900;
+            let startTime = null;
+            function animate(time) {
+                if (!startTime) startTime = time;
+                let progress = Math.min((time - startTime) / duration, 1);
+                let current = Math.floor(progress * (end - start) + start);
+                el.textContent = current;
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    el.textContent = end;
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        function updateDashboardAnalytics() {
+            let totalQuizzes = quizzes.length;
+            let totalQuestions = quizzes.reduce((a, q) => a + q.questions.length, 0);
+            let totalStudents = students.length;
+            let totalRight = quizzes.reduce((a, q) => a + (q.results ? q.results.reduce((b, r) => b + r.right, 0) : 0), 0);
+            let totalWrong = quizzes.reduce((a, q) => a + (q.results ? q.results.reduce((b, r) => b + r.wrong, 0) : 0), 0);
+            animateStat('stat-total-quizzes', totalQuizzes);
+            animateStat('stat-total-questions', totalQuestions);
+            animateStat('stat-total-students', totalStudents);
+            animateStat('stat-total-right', totalRight);
+            animateStat('stat-total-wrong', totalWrong);
+        }
+        // Call after quiz or question changes
+        renderQuizList = (function(orig) {
+            return function() {
+                orig.apply(this, arguments);
+                updateDashboardAnalytics();
+            };
+        })(renderQuizList);
+        renderQuestionsPreview = (function(orig) {
+            return function() {
+                orig.apply(this, arguments);
+                updateDashboardAnalytics();
+            };
+        })(renderQuestionsPreview);
+        // Initial call
+        updateDashboardAnalytics();
+
+        // Show dashboard by default
+        showDashboard();
+    </script>
+</body>
+
+</html>

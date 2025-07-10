@@ -4,7 +4,6 @@ function openModal(modalType) {
   if (modalType === "login") modalId = "loginModal";
   else if (modalType === "signup") modalId = "signupModal";
   else if (modalType === "joinQuiz") modalId = "joinQuizModal";
-  else if (modalType === "createQuiz") modalId = "createQuizModal";
   if (modalId) document.getElementById(modalId).style.display = "block";
 }
 
@@ -37,7 +36,7 @@ function joinQuiz() {
 }
 // Create Quiz button triggers modal
 function createQuiz() {
-  openModal("createQuiz");
+  window.location.href = "teacher_dashboard.html";    //redirect to teacher dashboard
 }
 // Join Quiz Modal submit
 function submitJoinQuiz() {
@@ -52,17 +51,6 @@ function submitJoinQuiz() {
   alert("Joining quiz with code: " + code + "\n(Feature coming soon!)");
   closeModal("joinQuizModal");
 }
-// Create Quiz Modal submit
-document
-  .getElementById("createQuizForm")
-  .addEventListener("submit", function (e) {
-    e.preventDefault();
-    const email = document.getElementById("createQuizEmail").value;
-    const password = document.getElementById("createQuizPassword").value;
-    if (!email || !password) return;
-    alert("Quiz creation for " + email + " (Feature coming soon!)");
-    closeModal("createQuizModal");
-  });
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
