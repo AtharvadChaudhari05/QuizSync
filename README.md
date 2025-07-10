@@ -1,1 +1,1 @@
-# QuizSync---A-web-Application
+# QuizSync-A web Application
