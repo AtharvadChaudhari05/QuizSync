@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Results | QuizSync</title>
+    <link rel="stylesheet" href="styles/student_dashboard.css" />
+</head>
+
+<body>
+    <div class="main-container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="../logo.jpg" alt="QuizSync Logo" />
+                    <span class="logo-text hero-title-animated">QuizSync</span>
+                </div>
+                <div class="nav-links-group">
+                    <div class="nav-links">
+                        <a href="../home.html">Home</a>
+                        <a href="../home.html#features">Features</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="content-wrapper">
+            <section class="results-section">
+                <div class="results-card">
+                    <div class="results-card-header">
+                        <h2>Quiz Results</h2>
+                        <p>Here's how you performed in the quiz.</p>
+                    </div>
+                    <div class="results-card-body">
+                        <div class="quiz-info">
+                            <div class="quiz-info-item">
+                                <span class="info-label">Quiz Name:</span>
+                                <span class="info-value" id="quizName">Loading...</span>
+                            </div>
+                            <div class="quiz-info-item">
+                                <span class="info-label">Date:</span>
+                                <span class="info-value" id="quizDate">Loading...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="score-container">
+                            <div class="score-circle">
+                                <div class="score-value" id="scoreValue">0</div>
+                                <div class="score-label">Score</div>
+                            </div>
+                            <div class="score-details">
+                                <div class="score-detail-item">
+                                    <span class="detail-label">Total Questions:</span>
+                                    <span class="detail-value" id="totalQuestions">0</span>
+                                </div>
+                                <div class="score-detail-item">
+                                    <span class="detail-label">Correct Answers:</span>
+                                    <span class="detail-value" id="correctAnswers">0</span>
+                                </div>
+                                <div class="score-detail-item">
+                                    <span class="detail-label">Percentage:</span>
+                                    <span class="detail-value" id="scorePercentage">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="results-actions">
+                            <button class="btn btn-home" onclick="window.location.href='../home.html'">Back to Home</button>
+                            <button class="btn btn-join" onclick="window.location.href='join_quiz.html'">Join Another Quiz</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2024 QuizSync. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="scripts/results.js"></script>
+</body>
+
+</html> 

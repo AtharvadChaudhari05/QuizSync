@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz | QuizSync</title>
+    <link rel="stylesheet" href="styles/student_dashboard.css" />
+</head>
+
+<body>
+    <div class="main-container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="../logo.jpg" alt="QuizSync Logo" />
+                    <span class="logo-text hero-title-animated">QuizSync</span>
+                </div>
+                <div class="quiz-info-header">
+                    <div class="quiz-name" id="quizNameHeader">Quiz Name</div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="content-wrapper">
+            <section class="quiz-section">
+                <div class="quiz-container">
+                    <div class="quiz-header">
+                        <div class="timer-container">
+                            <div class="timer-label">Time Left:</div>
+                            <div class="timer" id="questionTimer">00:00</div>
+                        </div>
+                        <div class="question-counter">
+                            Question <span id="currentQuestionNum">1</span> of <span id="totalQuestions">10</span>
+                        </div>
+                    </div>
+                    
+                    <div class="question-container">
+                        <div class="question-text" id="questionText">
+                            Loading question...
+                        </div>
+                        
+                        <div class="answer-container" id="answerContainer">
+                            <!-- For multiple choice questions -->
+                            <div class="multiple-choice-container" id="multipleChoiceContainer">
+                                <!-- Options will be added here dynamically -->
+                            </div>
+                            
+                            <!-- For text/numeric questions -->
+                            <div class="text-answer-container" id="textAnswerContainer" style="display: none;">
+                                <input type="text" id="textAnswer" placeholder="Type your answer here" class="text-answer-input">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-navigation">
+                        <button id="nextQuestionBtn" class="btn btn-next">Next Question</button>
+                        <button id="submitQuizBtn" class="btn btn-submit" style="display: none;">Submit Quiz</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Question Completed Modal -->
+        <div id="questionCompletedModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Time's Up!</h2>
+                </div>
+                <div class="modal-body">
+                    <p>Moving to the next question...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Completed Modal -->
+        <div id="quizCompletedModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Quiz Completed!</h2>
+                </div>
+                <div class="modal-body">
+                    <p>Your responses have been submitted.</p>
+                    <p>You will be redirected to the results page shortly.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2024 QuizSync. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="scripts/quiz.js"></script>
+</body>
+
+</html> 

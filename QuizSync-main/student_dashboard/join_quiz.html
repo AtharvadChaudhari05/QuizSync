@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Join Quiz | QuizSync</title>
+    <link rel="stylesheet" href="styles/student_dashboard.css" />
+</head>
+
+<body>
+    <div class="main-container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="../logo.jpg" alt="QuizSync Logo" />
+                    <span class="logo-text hero-title-animated">QuizSync</span>
+                </div>
+                <div class="nav-links-group">
+                    <div class="nav-links">
+                        <a href="../home.html">Home</a>
+                        <a href="../home.html#features">Features</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="content-wrapper">
+            <section class="join-quiz-section">
+                <div class="join-card">
+                    <div class="join-card-header">
+                        <h2>Join a Quiz</h2>
+                        <p>Enter the quiz code provided by your teacher and your registered email to join.</p>
+                    </div>
+                    <div class="join-card-body">
+                        <form id="joinQuizForm">
+                            <div class="form-group">
+                                <label for="quizCode">Quiz Code</label>
+                                <input type="text" id="quizCode" name="quizCode" placeholder="Enter quiz code" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="studentEmail">Your Email</label>
+                                <input type="email" id="studentEmail" name="studentEmail" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="studentName">Your Name</label>
+                                <input type="text" id="studentName" name="studentName" placeholder="Enter your name" required>
+                            </div>
+                            <button type="submit" class="btn btn-join">Join Quiz</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2024 QuizSync. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="scripts/join_quiz.js"></script>
+</body>
+
+</html> 

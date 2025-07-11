@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Waiting Room | QuizSync</title>
+    <link rel="stylesheet" href="styles/student_dashboard.css" />
+</head>
+
+<body>
+    <div class="main-container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="../logo.jpg" alt="QuizSync Logo" />
+                    <span class="logo-text hero-title-animated">QuizSync</span>
+                </div>
+                <div class="nav-links-group">
+                    <div class="nav-links">
+                        <a href="../home.html">Home</a>
+                        <a href="../home.html#features">Features</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="content-wrapper">
+            <section class="waiting-room-section">
+                <div class="waiting-card">
+                    <div class="waiting-card-header">
+                        <h2>Waiting Room</h2>
+                        <p>Please wait for the teacher to start the quiz.</p>
+                    </div>
+                    <div class="waiting-card-body">
+                        <div class="quiz-info">
+                            <div class="quiz-info-item">
+                                <span class="info-label">Quiz Name:</span>
+                                <span class="info-value" id="quizName">Loading...</span>
+                            </div>
+                            <div class="quiz-info-item">
+                                <span class="info-label">Quiz Code:</span>
+                                <span class="info-value" id="quizCode">Loading...</span>
+                            </div>
+                            <div class="quiz-info-item">
+                                <span class="info-label">Teacher:</span>
+                                <span class="info-value" id="teacherName">Loading...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="waiting-animation">
+                            <div class="spinner"></div>
+                            <p>Waiting for quiz to start...</p>
+                        </div>
+                        
+                        <div class="participants-section">
+                            <h3>Participants</h3>
+                            <div class="participants-list" id="participantsList">
+                                <!-- Participants will be added here dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2024 QuizSync. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="scripts/waiting_room.js"></script>
+</body>
+
+</html> 

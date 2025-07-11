@@ -30,9 +30,9 @@ window.onclick = function (event) {
     }
   });
 };
-// Join Quiz button triggers modal
+// Join Quiz button redirects directly to student dashboard
 function joinQuiz() {
-  openModal("joinQuiz");
+  window.location.href = "student_dashboard/join_quiz.html";
 }
 // Create Quiz button triggers modal
 function createQuiz() {
@@ -48,7 +48,8 @@ function submitJoinQuiz() {
     return;
   }
   document.getElementById("quizCodeInput").style.borderColor = "#10b981";
-  alert("Joining quiz with code: " + code + "\n(Feature coming soon!)");
+  // Redirect to student dashboard join quiz page
+  window.location.href = "student_dashboard/join_quiz.html";
   closeModal("joinQuizModal");
 }
 // Smooth scrolling for navigation links
