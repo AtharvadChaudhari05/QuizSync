@@ -30,14 +30,75 @@ window.onclick = function (event) {
     }
   });
 };
-// Join Quiz button redirects directly to student dashboard
+
+// Function to check if user is logged in and handle accordingly
+function checkLoginAndProceed(action) {
+  const loggedInUser = localStorage.getItem('loggedInUser');
+  if (!loggedInUser) {
+    // Create and show auth required modal
+    showAuthRequiredModal(action);
+    return false;
+  }
+  return true;
+}
+
+// Function to show auth required modal
+function showAuthRequiredModal(action) {
+  // Create modal if it doesn't exist
+  if (!document.getElementById('authRequiredModal')) {
+    const modal = document.createElement('div');
+    modal.id = 'authRequiredModal';
+    modal.className = 'modal';
+    
+    modal.innerHTML = `
+      <div class="modal-content">
+        <div class="modal-form-section">
+          <button class="close" onclick="closeModal('authRequiredModal')">&times;</button>
+          <div class="modal-header">
+            <h2>Authentication Required</h2>
+            <p>You need to create an account to ${action === 'join' ? 'join' : 'create'} a quiz.</p>
+          </div>
+          <div class="modal-body" style="text-align: center; padding: 20px;">
+            <p>Please sign up or log in to continue.</p>
+            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 24px;">
+              <button class="form-submit" onclick="switchModal('authRequiredModal', 'signupModal')" 
+                style="background: linear-gradient(90deg, #667eea, #764ba2); padding: 12px 24px; font-size: 16px; min-width: 140px; font-weight: bold;">Sign Up</button>
+              <button class="form-submit" onclick="switchModal('authRequiredModal', 'loginModal')"
+                style="padding: 12px 24px; font-size: 16px; min-width: 140px; font-weight: bold;">Login</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+  }
+  
+  // Display the modal
+  document.getElementById('authRequiredModal').style.display = 'block';
+}
+
+// Join Quiz button - check login first
 function joinQuiz() {
-  window.location.href = "student_dashboard/join_quiz.html";
+  if (checkLoginAndProceed('join')) {
+    window.location.href = "student_dashboard/join_quiz.html";
+  }
 }
-// Create Quiz button triggers modal
+
+// Create Quiz button - check login first
 function createQuiz() {
-  window.location.href = "teacher_dashboard.html";    //redirect to teacher dashboard
+  if (checkLoginAndProceed('create')) {
+    // Instead of redirecting to teacher dashboard, show a message
+    showFeatureUnavailableModal('create');
+  }
 }
+
+// Function to show feature unavailable modal
+function showFeatureUnavailableModal(feature) {
+  // Redirect to teacher dashboard instead of showing "coming soon" message
+  window.location.href = "teacher dashboard/index.html";
+}
+
 // Join Quiz Modal submit
 function submitJoinQuiz() {
   const code = document.getElementById("quizCodeInput").value.trim();
@@ -183,6 +244,33 @@ if (document.readyState === "loading") {
 } else {
   setupPasswordVisibilityToggles();
 }
+
+// Update the auth buttons based on login status
+function updateAuthButtons() {
+  const loggedInUser = localStorage.getItem('loggedInUser');
+  const authButtons = document.querySelector('.auth-buttons');
+  
+  if (loggedInUser && authButtons) {
+    // User is logged in, hide login/signup buttons
+    authButtons.style.display = 'none';
+  } else if (authButtons) {
+    // User is not logged in, show login/signup buttons
+    authButtons.style.display = 'flex';
+  }
+}
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+  updateAuthButtons();
+  
+  // Also update after logout
+  const logoutBtn = document.querySelector('.js-profile-logout');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', function() {
+      setTimeout(updateAuthButtons, 100); // Short delay to ensure logout is complete
+    });
+  }
+});
 
 // Open Profile Modal on profile button click
 document.querySelector('.profile-btn').addEventListener('click', function() {

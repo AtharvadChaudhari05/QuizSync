@@ -1,6 +1,26 @@
 // Join Quiz Functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Check if user is logged in
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    if (!loggedInUser) {
+        // User is not logged in, redirect to home page
+        alert('You need to be logged in to join a quiz.');
+        window.location.href = '../home.html';
+        return;
+    }
+    
     const joinQuizForm = document.getElementById('joinQuizForm');
+    
+    // Pre-fill user information from logged-in user data
+    if (loggedInUser) {
+        const user = JSON.parse(loggedInUser);
+        if (document.getElementById('studentEmail')) {
+            document.getElementById('studentEmail').value = user.email;
+        }
+        if (document.getElementById('studentName')) {
+            document.getElementById('studentName').value = user.name;
+        }
+    }
     
     if (joinQuizForm) {
         joinQuizForm.addEventListener('submit', function(event) {

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Quiz | QuizSync</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="../logo.jpg" alt="QuizSync Logo" />
+                    <span class="logo-text">QuizSync</span>
+                </div>
+                <div class="nav-links-group">
+                    <div class="nav-links">
+                        <a href="../home.html">Home</a>
+                    </div>
+                    <button class="profile-btn" title="Profile">
+                        <img src="../profile logo.jpg" alt="Profile" />
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <div class="content-wrapper">
+            <!-- Quiz Creation Options Section -->
+            <section id="creation-options" class="section">
+                <div class="section-header">
+                    <h1>🧠 Create a New Quiz</h1>
+                    <p class="section-description">Choose how you want to create your quiz</p>
+                </div>
+
+                <div class="creation-options-container">
+                    <div class="creation-option" data-option="manual">
+                        <div class="option-icon">📝</div>
+                        <h2>Generate Quiz Manually</h2>
+                        <p>Create questions and options yourself with our easy-to-use builder</p>
+                        <button class="option-btn manual-btn">Start Creating</button>
+                    </div>
+                    
+                    <div class="creation-option" data-option="ai">
+                        <div class="option-icon">🤖</div>
+                        <h2>Generate Quiz Using AI</h2>
+                        <p>Let our AI generate questions based on your topic and preferences</p>
+                        <button class="option-btn ai-btn">Try AI Generation</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Info Section (Hidden initially) -->
+            <section id="quiz-info" class="section hidden">
+                <div class="section-header">
+                    <h1>Quiz Information</h1>
+                    <p class="section-description">Set up the basic details for your quiz</p>
+                </div>
+
+                <form id="quiz-info-form">
+                    <div class="form-group">
+                        <label for="quiz-title">Quiz Title</label>
+                        <input type="text" id="quiz-title" name="quiz-title" placeholder="Enter a title for your quiz" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quiz-tags">Tags/Subjects</label>
+                        <input type="text" id="quiz-tags" name="quiz-tags" placeholder="E.g., Math, Science, History (comma separated)">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label>Time Setting Type</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="time-setting-type" value="per-question" checked>
+                                    <span>Time Per Question</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="time-setting-type" value="total">
+                                    <span>Total Quiz Time</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row time-settings">
+                        <div class="form-group half time-per-question-group">
+                            <label for="time-per-question">Time Per Question (seconds)</label>
+                            <input type="number" id="time-per-question" name="time-per-question" min="5" value="30">
+                        </div>
+                        <div class="form-group half total-time-group hidden">
+                            <label for="total-time">Total Quiz Time (minutes)</label>
+                            <input type="number" id="total-time" name="total-time" min="1" value="10">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Schedule</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="schedule-type" value="now" checked>
+                                <span>Start immediately after publishing</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="schedule-type" value="scheduled">
+                                <span>Set start and expiry dates</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-row schedule-dates hidden">
+                        <div class="form-group half">
+                            <label for="start-date">Start Date & Time</label>
+                            <input type="datetime-local" id="start-date" name="start-date">
+                        </div>
+                        <div class="form-group half">
+                            <label for="expiry-date">Expiry Date & Time</label>
+                            <input type="datetime-local" id="expiry-date" name="expiry-date">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label for="secure-code">Secure Code</label>
+                            <div class="code-input-group">
+                                <input type="text" id="secure-code" name="secure-code" maxlength="10" readonly>
+                                <button type="button" id="generate-code-btn">Generate</button>
+                                <button type="button" id="edit-code-btn">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="back-to-options-btn" class="btn btn-secondary">Back</button>
+                        <button type="button" id="continue-to-questions-btn" class="btn btn-primary">Continue to Add Questions</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Add Questions Section (Hidden initially) -->
+            <section id="add-questions" class="section hidden">
+                <div class="section-header">
+                    <h1>Add Questions</h1>
+                    <p class="section-description">Create questions for your quiz</p>
+                </div>
+
+                <div class="questions-container">
+                    <div class="questions-editor">
+                        <form id="question-form">
+                            <div class="form-group">
+                                <label for="question-text">Question Text</label>
+                                <textarea id="question-text" name="question-text" rows="3" placeholder="Enter your question here" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Question Type</label>
+                                <div class="radio-group question-type-main">
+                                    <label class="radio-label">
+                                        <input type="radio" name="question-type-main" value="multiple-choice" checked>
+                                        <span>Multiple Choice Question</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="question-type-main" value="text-answer">
+                                        <span>Answer in One Word/Numeric Value</span>
+                                    </label>
+                                </div>
+                                
+                                <div id="multiple-choice-options" class="sub-options">
+                                    <label class="sub-label">Choose Answer Type:</label>
+                                    <div class="radio-group">
+                                        <label class="radio-label">
+                                            <input type="radio" name="multiple-choice-type" value="single" checked>
+                                            <span>Single Correct Answer</span>
+                                        </label>
+                                        <label class="radio-label">
+                                            <input type="radio" name="multiple-choice-type" value="multiple">
+                                            <span>Multiple Correct Answers</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="options-group">
+                                <label>Options</label>
+                                <div id="options-container">
+                                    <div class="option-row">
+                                        <div class="option-select">
+                                            <input type="radio" name="correct-option" value="0" checked>
+                                        </div>
+                                        <input type="text" class="option-text" placeholder="Option 1" required>
+                                        <button type="button" class="remove-option-btn" disabled>&times;</button>
+                                    </div>
+                                    <div class="option-row">
+                                        <div class="option-select">
+                                            <input type="radio" name="correct-option" value="1">
+                                        </div>
+                                        <input type="text" class="option-text" placeholder="Option 2" required>
+                                        <button type="button" class="remove-option-btn" disabled>&times;</button>
+                                    </div>
+                                </div>
+                                <button type="button" id="add-option-btn" class="btn btn-outline">+ Add Option</button>
+                            </div>
+
+                            <div class="form-group hidden" id="text-answer-group">
+                                <label for="correct-text-answer">Correct Answer</label>
+                                <input type="text" id="correct-text-answer" name="correct-text-answer" placeholder="Enter the correct answer (case insensitive)">
+                                <p class="input-hint">For numeric answers, you can enter exact values (e.g., "42" or "3.14")</p>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group half">
+                                    <label for="question-image">Upload Image (optional)</label>
+                                    <input type="file" id="question-image" name="question-image" accept="image/*">
+                                </div>
+                            </div>
+
+                            <div class="form-actions question-actions">
+                                <button type="button" id="add-question-btn" class="btn btn-primary">Add Question</button>
+                                <button type="reset" id="reset-question-btn" class="btn btn-outline">Reset</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="questions-preview">
+                        <h3>Questions Preview</h3>
+                        <div id="questions-list">
+                            <div class="empty-state">
+                                <p>No questions added yet</p>
+                                <p class="hint">Questions you add will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-final-actions">
+                    <button type="button" id="back-to-info-btn" class="btn btn-secondary">Back</button>
+                    <button type="button" id="save-draft-btn" class="btn btn-outline">Save Draft</button>
+                    <button type="button" id="publish-quiz-btn" class="btn btn-primary">Publish Quiz</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- Profile Modal -->
+        <div id="profileModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-form-section" style="align-items:center; text-align:center;">
+                    <button class="close" onclick="closeModal('profileModal')">&times;</button>
+                    <div style="margin: 1.5rem 0 1rem 0;">
+                        <img src="../profile logo.jpg" alt="Profile" style="width:90px; height:90px; border-radius:50%; box-shadow:0 2px 12px #667eea44; margin-bottom:1rem;" />
+                        <h2 style="margin:0; font-size:1.5rem; color:#324376;" class="js-profile-name"></h2>
+                        <p style="margin:0.5rem 0 1.5rem 0; color:#4a5a8a; font-size:1rem;" class="js-profile-email"></p>
+                        <button style="padding:0.7rem 2rem; border-radius:30px; background:linear-gradient(90deg,#667eea,#fc466b); color:#fff; border:none; font-weight:600; cursor:pointer;" class="js-profile-logout">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2024 QuizSync. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="scripts/dashboard.js"></script>
+</body>
+</html> 

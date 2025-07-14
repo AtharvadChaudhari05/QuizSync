@@ -18,8 +18,8 @@
           <div class="nav-links-group">
             <div class="nav-links">
               <a href="#features">Features</a>
-              <a href="#join-quiz">Join Quiz</a>
-              <a href="#create-quiz">Create Quiz</a>
+              <a href="#" onclick="event.preventDefault(); joinQuiz();">Join Quiz</a>
+              <a href="#" onclick="event.preventDefault(); createQuiz();">Create Quiz</a>
               <div class="auth-buttons">
                 <a href="#" class="btn-login" onclick="openModal('login')"
                   >Login</a
@@ -125,7 +125,7 @@
               <div class="quiz-btn" onclick="joinQuiz()">Join Quiz</div>
             </div>
             <div class="quiz-visual">
-              <div class="quiz-circle" onclick="window.location.href='student_dashboard/join_quiz.html'">🚀</div>
+              <div class="quiz-circle" onclick="joinQuiz()">🚀</div>
             </div>
           </div>
         </section>
@@ -335,42 +335,7 @@
         </div>
       </div>
 
-      <!-- Create Quiz Modal -->
-      <div id="createQuizModal" class="modal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <span class="close" onclick="closeModal('createQuizModal')"
-              >&times;</span
-            >
-            <h2>Create a Quiz</h2>
-          </div>
-          <div class="modal-form-section">
-            <form id="createQuizForm">
-              <div class="form-group">
-                <label for="createQuizEmail">Email Address</label>
-                <input
-                  type="email"
-                  id="createQuizEmail"
-                  name="email"
-                  required
-                  placeholder="Enter your email"
-                />
-              </div>
-              <div class="form-group">
-                <label for="createQuizPassword">Password</label>
-                <input
-                  type="password"
-                  id="createQuizPassword"
-                  name="password"
-                  required
-                  placeholder="Enter your password"
-                />
-              </div>
-              <button type="submit" class="form-submit">Create Quiz</button>
-            </form>
-          </div>
-        </div>
-      </div>
+      <!-- Create Quiz Modal has been removed -->
 
       <!-- Profile Modal -->
       <div id="profileModal" class="modal">

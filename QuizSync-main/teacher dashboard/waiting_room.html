@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Waiting Room | QuizSync</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <style>
+        /* Additional styles for waiting room */
+        .waiting-room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .quiz-info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .quiz-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+        
+        .quiz-info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        
+        .info-value {
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+        }
+        
+        .secure-code {
+            background: var(--accent-light);
+            color: var(--primary-dark);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: inline-block;
+        }
+        
+        .students-panel {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .students-list {
+            flex: 1;
+            min-width: 280px;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .student-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid var(--accent-light);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .student-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .student-info {
+            flex: 1;
+        }
+        
+        .student-name {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        
+        .student-email {
+            font-size: 0.85rem;
+            color: var(--primary-light);
+        }
+        
+        .student-joined {
+            font-size: 0.85rem;
+            color: var(--primary-light);
+            margin-left: auto;
+        }
+        
+        .actions-panel {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        
+        .start-quiz-btn {
+            flex: 1;
+            background: linear-gradient(90deg, var(--success) 0%, var(--teal) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 16px 24px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+            text-align: center;
+        }
+        
+        .start-quiz-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+        }
+        
+        .secondary-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .copy-code-btn, .cancel-quiz-btn {
+            background: white;
+            border: 1px solid var(--accent-light);
+            color: var(--primary);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .copy-code-btn:hover {
+            background: var(--bg-light);
+        }
+        
+        .cancel-quiz-btn {
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+        
+        .cancel-quiz-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--primary-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="../logo.jpg" alt="QuizSync Logo" />
+                    <span class="logo-text">QuizSync</span>
+                </div>
+                <div class="nav-links-group">
+                    <div class="nav-links">
+                        <a href="../home.html">Home</a>
+                    </div>
+                    <button class="profile-btn" title="Profile">
+                        <img src="../profile logo.jpg" alt="Profile" />
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <div class="content-wrapper">
+            <section class="section">
+                <div class="waiting-room-header">
+                    <div>
+                        <h1>Quiz Waiting Room</h1>
+                        <p>Wait for students to join, then start the quiz when ready</p>
+                    </div>
+                    <div id="timer-display" class="timer-display">
+                        <!-- Will show any scheduled start time -->
+                    </div>
+                </div>
+                
+                <div class="quiz-info-card">
+                    <div class="quiz-info-grid">
+                        <div class="quiz-info-item">
+                            <span class="info-label">Quiz Title</span>
+                            <span class="info-value" id="quiz-title">Loading...</span>
+                        </div>
+                        <div class="quiz-info-item">
+                            <span class="info-label">Quiz Code</span>
+                            <span class="info-value">
+                                <span class="secure-code" id="quiz-code">LOADING</span>
+                                <button class="copy-code-btn" id="copy-code-btn" title="Copy to clipboard">
+                                    📋 Copy
+                                </button>
+                            </span>
+                        </div>
+                        <div class="quiz-info-item">
+                            <span class="info-label">Students Joined</span>
+                            <span class="info-value" id="students-count">0</span>
+                        </div>
+                        <div class="quiz-info-item">
+                            <span class="info-label">Questions</span>
+                            <span class="info-value" id="questions-count">0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="students-panel">
+                    <div class="students-list" id="students-list">
+                        <div class="empty-state">
+                            <p>No students have joined yet</p>
+                            <p>Share the quiz code to get started</p>
+                        </div>
+                        
+                        <!-- Students will be added here dynamically -->
+                    </div>
+                </div>
+                
+                <div class="actions-panel">
+                    <button class="start-quiz-btn" id="start-quiz-btn">Start Quiz Now</button>
+                    <div class="secondary-actions">
+                        <button class="cancel-quiz-btn" id="cancel-quiz-btn">Cancel Quiz</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Profile Modal -->
+        <div id="profileModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-form-section" style="align-items:center; text-align:center;">
+                    <button class="close" onclick="closeModal('profileModal')">&times;</button>
+                    <div style="margin: 1.5rem 0 1rem 0;">
+                        <img src="../profile logo.jpg" alt="Profile" style="width:90px; height:90px; border-radius:50%; box-shadow:0 2px 12px #667eea44; margin-bottom:1rem;" />
+                        <h2 style="margin:0; font-size:1.5rem; color:#324376;" class="js-profile-name"></h2>
+                        <p style="margin:0.5rem 0 1.5rem 0; color:#4a5a8a; font-size:1rem;" class="js-profile-email"></p>
+                        <button style="padding:0.7rem 2rem; border-radius:30px; background:linear-gradient(90deg,#667eea,#fc466b); color:#fff; border:none; font-weight:600; cursor:pointer;" class="js-profile-logout">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2024 QuizSync. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="scripts/waiting_room.js"></script>
+</body>
+</html> 

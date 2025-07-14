@@ -21,6 +21,14 @@ if (loginButton) {
       if (userById && userById.password === enteredPassword) {
         localStorage.setItem('loggedInUser', JSON.stringify(userById)); // Store user info
         alert("Login successful!");
+        
+        // Close the login modal
+        closeModal('loginModal');
+        
+        // Update auth buttons if the function exists
+        if (typeof updateAuthButtons === 'function') {
+          updateAuthButtons();
+        }
       } else {
         alert("Incorrect password.");
       }
