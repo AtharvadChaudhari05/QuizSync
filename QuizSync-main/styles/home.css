@@ -3525,12 +3525,12 @@ nav {
 .form-switch {
   text-align: center;
   margin-top: 1.2rem;
-  color: #888;
+  color: navy;
   font-size: 0.97rem;
 }
 
 .form-switch a {
-  color: #667eea;
+  color: aqua;
   font-weight: 600;
 }
 
@@ -3564,11 +3564,12 @@ nav {
 }
 
 .checkbox-label {
-  display: flex;
-  align-items: center;
+  /* Make sure the label is inline or inline-block */
+  display: inline-block;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #666;
+  /* Remove any flex or block display here */
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -3576,13 +3577,15 @@ nav {
 }
 
 .checkmark {
-  width: 18px;
-  height: 18px;
-  border: 2px solid #e2e8f0;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #667eea;
   border-radius: 4px;
-  margin-right: 0.5rem;
+  background: #fff;
+  vertical-align: middle;   /* Aligns with text */
+  margin-right: 0.5em;      /* Space between box and text */
   position: relative;
-  transition: all 0.3s ease;
 }
 
 .checkbox-label input[type="checkbox"]:checked + .checkmark {
@@ -3596,11 +3599,11 @@ nav {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
-  font-size: 0.7rem;
+  color: #fff;
+  font-size: 1.1rem;
   font-weight: bold;
+  text-shadow: 0 1px 4px #32437655;
 }
-
 .btn-text,
 .btn-loading {
   transition: opacity 0.3s ease;
@@ -4423,8 +4426,12 @@ footer {
 }
 
 #signupModal .modal-content {
-  max-height: 92vh;
+  width: 420px; 
+  padding: 2.5rem 1rem 0.2rem 1rem; 
+  max-width: 95vw;
+  max-height: 86vh;
   overflow-y: auto;
+  border-radius: 22px;
   scrollbar-width: thin;
   scrollbar-color: #667eea #e0e7ff;
 }
@@ -4475,6 +4482,7 @@ footer {
   margin-top: 0.5rem;
   position: relative;
   overflow: hidden;
+  height: 35px;
 }
 
 #loginModal .form-submit:hover,
