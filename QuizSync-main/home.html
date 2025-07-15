@@ -20,6 +20,7 @@
               <a href="#features">Features</a>
               <a href="#" onclick="event.preventDefault(); joinQuiz();">Join Quiz</a>
               <a href="#" onclick="event.preventDefault(); createQuiz();">Create Quiz</a>
+              <a href="about.html">About Us</a>
               <div class="auth-buttons">
                 <a href="#" class="btn-login" onclick="openModal('login')"
                   >Login</a
@@ -29,9 +30,12 @@
                 >
               </div>
             </div>
-            <button class="profile-btn" title="Profile">
-              <img src="profile logo.jpg" alt="Profile" />
-            </button>
+            <div class="profile-greeting-flex" style="display:flex; align-items:center; gap:0;">
+              <div class="user-greeting" style="display:flex; align-items:center; font-weight:600; color:#fff; font-size:1.15rem; background:linear-gradient(90deg,#667eea,#fc466b); padding:0.5rem 1.2rem; border-radius:24px 0 0 24px; border:none; box-shadow:0 2px 8px #667eea22;"></div>
+              <button class="profile-btn" title="Profile" style="border-radius:0 24px 24px 0; margin-left:0;">
+                <img src="profile logo.jpg" alt="Profile" />
+              </button>
+            </div>
           </div>
         </nav>
       </header>
@@ -92,12 +96,10 @@
               </div>
               <div class="feature-card feature-2">
                 <div class="feature-box"></div>
-                <div class="feature-icon">🎨</div>
-                <h3>Custom Themes</h3>
+                <div class="feature-icon">🤖</div>
+                <h3>Create Using AI</h3>
                 <p>
-                  Create beautiful, personalized quizzes with our extensive
-                  theme library, custom colors, and advanced customization
-                  options for every occasion.
+                  Instantly generate engaging quizzes with the power of AI. Just enter a topic, and let our intelligent assistant craft questions, answers, and explanations for you—fast, easy, and smart!
                 </p>
               </div>
               <div class="feature-card feature-3">
@@ -122,7 +124,7 @@
                 interactive, real-time quizzes. Test your knowledge, compete
                 with others, and experience the thrill of live competition!
               </p>
-              <div class="quiz-btn" onclick="joinQuiz()">Join Quiz</div>
+              <div class="quiz-btn" onclick="joinQuiz()">🚀 <span style="margin-left:0.5em;">Join Quiz</span></div>
             </div>
             <div class="quiz-visual">
               <div class="quiz-circle" onclick="joinQuiz()">🚀</div>
@@ -133,7 +135,7 @@
         <section class="quiz-section create-quiz" id="create-quiz">
           <div class="quiz-content">
             <div class="quiz-visual">
-              <div class="quiz-circle" onclick="createQuiz()">✨</div>
+              <div class="quiz-circle" onclick="createQuiz()">📝</div>
             </div>
             <div class="quiz-text">
               <h2>Create a Quiz</h2>
@@ -142,7 +144,7 @@
                 multimedia content, set custom timers, and create memorable
                 experiences that captivate your audience.
               </p>
-              <div class="quiz-btn" onclick="createQuiz()">Start Creating</div>
+              <div class="quiz-btn" onclick="createQuiz()">📝 <span style="margin-left:0.5em;">Start Creating</span></div>
             </div>
           </div>
         </section>

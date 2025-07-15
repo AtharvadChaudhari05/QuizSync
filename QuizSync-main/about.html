@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us - QuizSync</title>
+  <link rel="stylesheet" href="styles/home.css" />
+  <style>
+    body { background: linear-gradient(135deg, #f3e7fa 0%, #e3d0ff 100%); }
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100vw;
+      z-index: 1000;
+    }
+    .about-main-content {
+      margin-top: 100px;
+    }
+    .about-hero {
+      background: linear-gradient(90deg, #7f53ac 0%, #647dee 50%, #b224ef 100%);
+      color: #fff;
+      padding: 3rem 0 2rem 0;
+      text-align: center;
+      border-radius: 0 0 32px 32px;
+      box-shadow: 0 8px 32px #7f53ac33;
+    }
+    .about-hero h1 { font-size: 2.8rem; margin-bottom: 0.5rem; }
+    .about-hero p { font-size: 1.3rem; max-width: 700px; margin: 0 auto; }
+    .about-section { max-width: 900px; margin: 2.5rem auto; background: #fff; border-radius: 18px; box-shadow: 0 4px 24px #667eea11; padding: 2.5rem 2rem; }
+    .about-section h2 { color: #667eea; margin-bottom: 1rem; }
+    .team-grid { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; margin-top: 2rem; }
+    .team-card { background: linear-gradient(120deg, #e6eaf3 60%, #a3b6e7 100%); border-radius: 16px; box-shadow: 0 2px 12px #667eea22; padding: 1.5rem 1.2rem; min-width: 220px; max-width: 260px; text-align: center; transition: transform 0.2s; }
+    .team-card:hover { transform: translateY(-6px) scale(1.04); box-shadow: 0 8px 32px #667eea33; }
+    .team-avatar { width: 70px; height: 70px; border-radius: 50%; background: #fff; margin: 0 auto 1rem auto; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; box-shadow: 0 2px 8px #667eea22; }
+    .team-name { font-weight: 700; color: #324376; font-size: 1.15rem; margin-bottom: 0.2rem; }
+    .team-role { color: #667eea; font-size: 1rem; margin-bottom: 0.3rem; }
+    .team-email { color: #4a5a8a; font-size: 0.97rem; word-break: break-all; }
+    .about-mission { background: linear-gradient(90deg, #b224ef 0%, #7579ff 100%); color: #fff; border-radius: 16px; padding: 2rem 1.5rem; margin: 2.5rem 0 0 0; text-align: center; box-shadow: 0 2px 12px #b224ef33; }
+    .about-mission h2 { color: #fff; }
+    .about-link-home { display: inline-block; margin-top: 2rem; background: #fff; color: #667eea; font-weight: 600; border-radius: 24px; padding: 0.7rem 2.2rem; text-decoration: none; box-shadow: 0 2px 8px #667eea22; transition: background 0.2s, color 0.2s; }
+    .about-link-home:hover { background: #667eea; color: #fff; }
+    .project-feature-box:nth-child(1) { background: linear-gradient(120deg,#e0c3fc 60%,#8ec5fc 100%); box-shadow: 0 2px 12px #b224ef22; }
+    .project-feature-box:nth-child(2) { background: linear-gradient(120deg,#fbc2eb 60%,#a6c1ee 100%); box-shadow: 0 2px 12px #7579ff22; }
+    .project-feature-box:nth-child(3) { background: linear-gradient(120deg,#d4fc79 60%,#96e6a1 100%); box-shadow: 0 2px 12px #43e97b22; }
+    .project-feature-box:nth-child(4) { background: linear-gradient(120deg,#f7971e 60%,#ffd200 100%); box-shadow: 0 2px 12px #f7971e22; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="logo.jpg" alt="QuizSync Logo" />
+        <span class="logo-text hero-title-animated">QuizSync</span>
+      </div>
+      <div class="nav-links-group">
+        <div class="nav-links">
+          <a href="home.html#features">Features</a>
+          <a href="home.html#" onclick="event.preventDefault();">Join Quiz</a>
+          <a href="home.html#" onclick="event.preventDefault();">Create Quiz</a>
+          <a href="about.html">About Us</a>
+          <div class="auth-buttons">
+            <a href="#" class="btn-login" onclick="openModal('login')">Login</a>
+            <a href="#" class="btn-signup" onclick="openModal('signup')">Sign Up</a>
+          </div>
+        </div>
+        <div class="profile-greeting-flex" style="display:none; align-items:center; gap:0;">
+          <div class="user-greeting" style="display:flex; align-items:center; font-weight:600; color:#fff; font-size:1.15rem; background:linear-gradient(90deg,#667eea,#fc466b); padding:0.5rem 1.2rem; border-radius:24px 0 0 24px; border:none; box-shadow:0 2px 8px #667eea22;"></div>
+          <button class="profile-btn" title="Profile" style="border-radius:0 24px 24px 0; margin-left:0;">
+            <img src="profile logo.jpg" alt="Profile" />
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div class="about-main-content">
+    <div class="about-hero">
+      <h1>About QuizSync</h1>
+      <p>
+        QuizSync is a modern, interactive quiz platform designed to make learning fun, collaborative, and accessible for everyone. Our mission is to empower curiosity and ignite potential through real-time quizzes, AI-powered creation, and insightful analytics.
+      </p>
+    </div>
+    <div class="about-section">
+      <h2>Meet the Team</h2>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">👨‍💻</div>
+          <div class="team-name">Atharva Chaudhari</div>
+          <div class="team-role">Full Stack Developer</div>
+          <div class="team-email">d2024atharva.chaudhari@ves.ac.in</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👩‍💻</div>
+          <div class="team-name">Aarya Thorat</div>
+          <div class="team-role">Frontend Developer & UI/UX</div>
+          <div class="team-email">2023.aarya.thorat@ves.ac.in</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👨‍💻</div>
+          <div class="team-name">Yash Bhurke</div>
+          <div class="team-role">Backend Developer</div>
+          <div class="team-email">2023.yash.bhurke@ves.ac.in</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👨‍💻</div>
+          <div class="team-name">Manas Patil</div>
+          <div class="team-role">Database & API Specialist</div>
+          <div class="team-email">2023.manas.r.patil@ves.ac.in</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👨‍💻</div>
+          <div class="team-name">Sameer Jagiasi</div>
+          <div class="team-role">DevOps & Deployment</div>
+          <div class="team-email">d2024sameer.jagiasi@ves.ac.in</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👩‍💻</div>
+          <div class="team-name">Bhumika Bhatia</div>
+          <div class="team-role">Project Mentor</div>
+          <div class="team-email">bhumikabhatia@gmail.com</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-section">
+      <h2>About the Project</h2>
+      <div style="display:flex; flex-wrap:wrap; gap:2.5rem; align-items:center; justify-content:space-between;">
+        <div style="flex:1 1 320px; min-width:260px;">
+          <p>
+            QuizSync was born out of a passion for making education more engaging and effective. Our platform allows teachers and students to connect in real time, create and join quizzes effortlessly, and leverage the power of AI to generate high-quality questions. With advanced analytics, beautiful design, and a focus on accessibility, QuizSync is the ultimate tool for modern learning environments.
+          </p>
+          <ul style="margin-top:1.5rem; margin-left:1.2rem; color:#324376;">
+            <li>Real-time quiz participation and results</li>
+            <li>AI-powered quiz creation for any topic</li>
+            <li>Detailed analytics and performance tracking</li>
+            <li>Secure, user-friendly authentication</li>
+            <li>Modern, responsive design for all devices</li>
+            <li>Collaborative and competitive learning</li>
+          </ul>
+          <div style="margin-top:1.5rem;">
+            <strong>Technology Stack:</strong>
+            <ul style="margin-left:1.2rem; color:#324376;">
+              <li>HTML5, CSS3, JavaScript (Vanilla)</li>
+              <li>Responsive Frontend Design</li>
+              <li>Local Storage for User Data</li>
+              <li>AI Integration for Quiz Generation</li>
+              <li>Modular, Maintainable Codebase</li>
+            </ul>
+          </div>
+          <div style="margin-top:1.5rem;">
+            <strong>Future Plans:</strong>
+            <ul style="margin-left:1.2rem; color:#324376;">
+              <li>Live multiplayer quiz battles</li>
+              <li>Teacher dashboards with class analytics</li>
+              <li>Mobile app for iOS & Android</li>
+              <li>Integration with learning management systems (LMS)</li>
+            </ul>
+          </div>
+        </div>
+        <div style="flex:1 1 320px; min-width:260px; text-align:center;">
+          <div class="project-features-grid" style="display:flex; flex-wrap:wrap; gap:1.5rem; justify-content:center; margin-top:0.5rem;">
+            <div class="project-feature-box" style="flex:1 1 180px; min-width:180px; max-width:220px; background:linear-gradient(120deg,#e0c3fc 60%,#8ec5fc 100%); border-radius:14px; box-shadow:0 2px 12px #b224ef22; padding:1.2rem 1rem; text-align:center;">
+              <div style="font-size:2rem; margin-bottom:0.5rem;">🤖</div>
+              <div style="font-weight:700; color:#324376; margin-bottom:0.3rem;">AI Quiz Generation</div>
+              <div style="color:#4a5a8a; font-size:0.98rem;">Generate quizzes instantly on any topic using advanced AI technology.</div>
+            </div>
+            <div class="project-feature-box" style="flex:1 1 180px; min-width:180px; max-width:220px; background:linear-gradient(120deg,#fbc2eb 60%,#a6c1ee 100%); border-radius:14px; box-shadow:0 2px 12px #7579ff22; padding:1.2rem 1rem; text-align:center;">
+              <div style="font-size:2rem; margin-bottom:0.5rem;">📝</div>
+              <div style="font-weight:700; color:#324376; margin-bottom:0.3rem;">Easy Quiz Creation</div>
+              <div style="color:#4a5a8a; font-size:0.98rem;">Design custom quizzes with multimedia, timers, and more.</div>
+            </div>
+            <div class="project-feature-box" style="flex:1 1 180px; min-width:180px; max-width:220px; background:linear-gradient(120deg,#d4fc79 60%,#96e6a1 100%); border-radius:14px; box-shadow:0 2px 12px #43e97b22; padding:1.2rem 1rem; text-align:center;">
+              <div style="font-size:2rem; margin-bottom:0.5rem;">📊</div>
+              <div style="font-weight:700; color:#324376; margin-bottom:0.3rem;">Advanced Analytics</div>
+              <div style="color:#4a5a8a; font-size:0.98rem;">Track performance, get insights, and improve learning outcomes.</div>
+            </div>
+            <div class="project-feature-box" style="flex:1 1 180px; min-width:180px; max-width:220px; background:linear-gradient(120deg,#f7971e 60%,#ffd200 100%); border-radius:14px; box-shadow:0 2px 12px #f7971e22; padding:1.2rem 1rem; text-align:center;">
+              <div style="font-size:2rem; margin-bottom:0.5rem;">🤝</div>
+              <div style="font-weight:700; color:#324376; margin-bottom:0.3rem;">Collaborative Learning</div>
+              <div style="color:#4a5a8a; font-size:0.98rem;">Join, compete, and learn together in real time with friends and classmates.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-mission">
+      <h2>Our Mission & Vision</h2>
+      <p>
+        We believe that learning should be accessible, interactive, and enjoyable for everyone. Our vision is to build a global community where knowledge is shared, curiosity is celebrated, and every learner can reach their full potential.
+      </p>
+    </div>
+    <a href="home.html" class="about-link-home">← Back to Home</a>
+  </div>
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-illustration">
+        <span>🔐</span>
+        <div>Welcome Back!</div>
+      </div>
+      <div class="modal-form-section">
+        <button class="close" onclick="closeModal('loginModal')">&times;</button>
+        <div class="modal-header">
+          <h2>Login to QuizSync</h2>
+          <p>Access your quizzes and results.</p>
+        </div>
+        <div class="modal-body">
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="loginEmail">Email Address</label>
+              <span class="input-icon">📧</span>
+              <input type="email" id="loginEmail" name="email" required placeholder="Enter your email" class="js-input-login-email" />
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <span class="input-icon">🔒</span>
+              <input type="password" id="loginPassword" name="password" required placeholder="Enter your password" class="js-input-login-password" />
+              <button type="button" class="toggle-password-visibility" style="margin-left:8px;">Show</button>
+            </div>
+            <button type="submit" class="form-submit js-login-btn">Login</button>
+            <div class="form-switch">
+              Don't have an account?
+              <a href="#" onclick="switchModal('loginModal', 'signupModal')">Sign up here</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div id="signupModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-form-section">
+        <button class="close" onclick="closeModal('signupModal')">&times;</button>
+        <div class="modal-header">
+          <h2>Create Your Account</h2>
+          <p>Start creating and joining quizzes instantly.</p>
+        </div>
+        <div class="modal-body">
+          <form id="signupForm">
+            <div class="form-group">
+              <label for="signupName">Full Name</label>
+              <span class="input-icon">👤</span>
+              <input type="text" id="signupName" name="name" required placeholder="Enter your full name" class="js-input-signup-name" />
+              <div class="form-feedback" id="nameFeedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="signupEmail">Email Address</label>
+              <span class="input-icon">📧</span>
+              <input type="email" id="signupEmail" name="email" required placeholder="Enter your email address" class="js-input-signup-email" />
+              <div class="form-feedback" id="emailFeedback"></div>
+            </div>
+            <div class="form-group">
+              <label for="signupPassword">Password</label>
+              <span class="input-icon">🔒</span>
+              <input type="password" id="signupPassword" name="password" required placeholder="Create a strong password" class="js-input-signup-password" />
+              <button type="button" class="toggle-password-visibility" style="margin-left:8px;">Show</button>
+              <div class="password-strength">
+                <div class="progress-bar">
+                  <div class="progress-fill" id="passwordStrength"></div>
+                </div>
+                <small>Password strength: <span id="strengthText">Weak</span></small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="signupConfirmPassword">Confirm Password</label>
+              <span class="input-icon">🔒</span>
+              <input type="password" id="signupConfirmPassword" name="confirmPassword" required placeholder="Confirm your password" class="js-input-signup-submit" />
+              <button type="button" class="toggle-password-visibility" style="margin-left:8px;">Show</button>
+              <div class="form-feedback" id="confirmFeedback"></div>
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="termsCheckbox" required />
+                <span class="checkmark"></span>
+                I agree to the <a href="#" style="color: #667eea">Terms of Service</a> and <a href="#" style="color: #667eea">Privacy Policy</a>
+              </label>
+            </div>
+            <button type="submit" class="form-submit">
+              <span class="btn-text">Create Account</span>
+              <span class="btn-loading" style="display: none">Creating Account...</span>
+            </button>
+            <div class="form-switch">
+              Already have an account?
+              <a href="#" onclick="switchModal('signupModal', 'loginModal')">Login here</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Profile Modal -->
+  <div id="profileModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-form-section" style="align-items:center; text-align:center;">
+        <button class="close" onclick="closeModal('profileModal')">&times;</button>
+        <div style="margin: 1.5rem 0 1rem 0;">
+          <img src="profile logo.jpg" alt="Profile" style="width:90px; height:90px; border-radius:50%; box-shadow:0 2px 12px #667eea44; margin-bottom:1rem;" />
+          <h2 style="margin:0; font-size:1.5rem; color:#324376;" class="js-profile-name"></h2>
+          <p style="margin:0.5rem 0 1.5rem 0; color:#4a5a8a; font-size:1rem;" class="js-profile-email"></p>
+          <button style="padding:0.7rem 2rem; border-radius:30px; background:linear-gradient(90deg,#667eea,#fc466b); color:#fff; border:none; font-weight:600; cursor:pointer;" class="js-profile-logout">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="scripts/profile.js"></script>
+  <script src="scripts/login.js"></script>
+  <script src="scripts/data.js"></script>
+  <script src="scripts/home.js"></script>
+</body>
+</html> 

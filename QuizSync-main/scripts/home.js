@@ -249,20 +249,27 @@ if (document.readyState === "loading") {
 function updateAuthButtons() {
   const loggedInUser = localStorage.getItem('loggedInUser');
   const authButtons = document.querySelector('.auth-buttons');
-  
-  if (loggedInUser && authButtons) {
+  const userGreeting = document.querySelector('.user-greeting');
+  const profileGreetingFlex = document.querySelector('.profile-greeting-flex');
+
+  if (loggedInUser && authButtons && userGreeting && profileGreetingFlex) {
     // User is logged in, hide login/signup buttons
     authButtons.style.display = 'none';
-  } else if (authButtons) {
-    // User is not logged in, show login/signup buttons
+    // Show greeting with name and profile flex
+    const user = JSON.parse(loggedInUser);
+    userGreeting.textContent = `Hi, ${user.name}`;
+    profileGreetingFlex.style.display = 'flex';
+  } else if (authButtons && userGreeting && profileGreetingFlex) {
+    // User is not logged in, show login/signup buttons and hide profile flex
     authButtons.style.display = 'flex';
+    userGreeting.textContent = '';
+    profileGreetingFlex.style.display = 'none';
   }
 }
 
 // Call this function when the page loads
 document.addEventListener('DOMContentLoaded', function() {
   updateAuthButtons();
-  
   // Also update after logout
   const logoutBtn = document.querySelector('.js-profile-logout');
   if (logoutBtn) {

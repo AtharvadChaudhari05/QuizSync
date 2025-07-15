@@ -72,6 +72,13 @@ function setupFormHandlers() {
       // Show success message
       alert("Account created successfully!");
 
+      // Set the new user as logged in
+      localStorage.setItem('loggedInUser', JSON.stringify(userObj));
+      // Update auth buttons if the function exists
+      if (typeof updateAuthButtons === 'function') {
+        updateAuthButtons();
+      }
+
       // Clear the form
       event.target.reset();
 
