@@ -49,33 +49,64 @@ function showAuthRequiredModal(action) {
     const modal = document.createElement('div');
     modal.id = 'authRequiredModal';
     modal.className = 'modal';
-    
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100vw';
+    modal.style.height = '100vh';
+    modal.style.background = 'radial-gradient(circle at 60% 40%, #e0c3fc 0%, #8ec5fc 100%)';
+    modal.style.zIndex = '2000';
     modal.innerHTML = `
-      <div class="modal-content">
-        <div class="modal-form-section">
-          <button class="close" onclick="closeModal('authRequiredModal')">&times;</button>
-          <div class="modal-header">
-            <h2>Authentication Required</h2>
-            <p>You need to create an account to ${action === 'join' ? 'join' : 'create'} a quiz.</p>
-          </div>
-          <div class="modal-body" style="text-align: center; padding: 20px;">
-            <p>Please sign up or log in to continue.</p>
-            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 24px;">
-              <button class="form-submit" onclick="switchModal('authRequiredModal', 'signupModal')" 
-                style="background: linear-gradient(90deg, #667eea, #764ba2); padding: 12px 24px; font-size: 16px; min-width: 140px; font-weight: bold;">Sign Up</button>
+      <div style="position: absolute; inset: 0; pointer-events: none; z-index: 0;">
+        <svg width='100%' height='100%' style='position:absolute;top:0;left:0;z-index:0;pointer-events:none;'>
+          <circle cx='20%' cy='30%' r='60' fill='#b224ef33'>
+            <animate attributeName='cy' values='30%;35%;30%' dur='4s' repeatCount='indefinite'/></circle>
+          <circle cx='80%' cy='60%' r='40' fill='#fc466b22'>
+            <animate attributeName='cy' values='60%;65%;60%' dur='5s' repeatCount='indefinite'/></circle>
+          <circle cx='50%' cy='80%' r='30' fill='#ffd20033'>
+            <animate attributeName='cy' values='80%;85%;80%' dur='6s' repeatCount='indefinite'/></circle>
+        </svg>
+      </div>
+      <div class="modal-content" style="width: 460px; max-width: 97vw; border-radius: 20px; box-shadow: 0 16px 64px #7f53ac77; background: #fff; padding: 0; overflow: hidden; display: flex; flex-direction: column; align-items: stretch; position: relative; border: 4px solid; border-image: linear-gradient(120deg, #fc466b 0%, #ffd200 50%, #43e97b 100%) 1; animation: popIn 0.5s cubic-bezier(.68,-0.55,.27,1.55);">
+        <div style="background: linear-gradient(90deg, #7f53ac 0%, #647dee 50%, #b224ef 100%); padding: 2.5rem 1.2rem 1.2rem 1.2rem; text-align: center; border-radius: 16px 16px 0 0; box-shadow: 0 4px 24px #7f53ac22; position:relative;">
+          <div style="font-size: 4.2rem; margin-bottom: 0.2rem; filter: drop-shadow(0 2px 12px #fff8); position:relative;">🔒<span style='position:absolute;top:0.2em;right:1.2em;font-size:1.5rem;animation:sparkle 1.5s infinite alternate;'>✨</span></div>
+          <h2 style="color: #fff; font-size: 2.2rem; margin: 0 0 0.3rem 0; letter-spacing: 0.5px; font-family: 'Segoe UI',sans-serif; text-shadow:0 2px 8px #0002;">Authentication Required</h2>
+          <div style="color: #ffe066; font-size: 1.1rem; font-weight: 500; margin-bottom: 0.2rem;">Unlock your learning journey! 🚀</div>
+          <p style="color: #e0e7ff; font-size: 1.13rem; margin: 0;">You need to create an account to ${action === 'join' ? 'join' : 'create'} a quiz.</p>
+        </div>
+        <div class="modal-form-section" style="padding: 2.3rem 1.7rem 2rem 1.7rem; text-align: center; background: #fff; border-radius: 0 0 16px 16px; position:relative;">
+          <button class="close" onclick="closeModal('authRequiredModal')" style="position: absolute; top: 18px; right: 24px; background: none; border: none; font-size: 2.3rem; color: #7f53ac; cursor: pointer; z-index: 2; transition: color 0.2s;">&times;</button>
+          <div class="modal-body" style="margin-top: 0.5rem;">
+            <div style="font-size: 1.22rem; color: #4a5a8a; margin-bottom: 1.3rem; font-family: 'Segoe UI',sans-serif;">Please sign up or log in to continue.<br><span style='font-size:2.7rem; display:inline-block; margin-top:0.7rem;'>🎉🤖</span></div>
+            <div style="display: flex; gap: 22px; justify-content: center; margin-top: 32px; flex-wrap: wrap;">
+              <button class="form-submit" onclick="switchModal('authRequiredModal', 'signupModal')"
+                style="background: linear-gradient(90deg, #fc466b, #3f5efb); color: #fff; border: none; border-radius: 24px; padding: 15px 40px; font-size: 1.18rem; min-width: 150px; font-weight: bold; box-shadow: 0 2px 12px #fc466b22; transition: background 0.2s, color 0.2s, transform 0.15s; cursor: pointer; letter-spacing: 0.5px; outline:none;"
+                onmouseover="this.style.background='linear-gradient(90deg,#43e97b,#38f9d7)';this.style.transform='scale(1.06)';" onmouseout="this.style.background='linear-gradient(90deg, #fc466b, #3f5efb)';this.style.transform='scale(1)';">Sign Up</button>
               <button class="form-submit" onclick="switchModal('authRequiredModal', 'loginModal')"
-                style="padding: 12px 24px; font-size: 16px; min-width: 140px; font-weight: bold;">Login</button>
+                style="background: #fff; color: #fc466b; border: 2px solid #fc466b; border-radius: 24px; padding: 15px 40px; font-size: 1.18rem; min-width: 150px; font-weight: bold; box-shadow: 0 2px 12px #fc466b22; transition: background 0.2s, color 0.2s, transform 0.15s; cursor: pointer; letter-spacing: 0.5px; outline:none;"
+                onmouseover="this.style.background='linear-gradient(90deg,#ffd200,#43e97b)';this.style.color='#fff';this.style.transform='scale(1.06)';" onmouseout="this.style.background='#fff';this.style.color='#fc466b';this.style.transform='scale(1)';">Login</button>
             </div>
           </div>
         </div>
       </div>
+      <style>
+        @keyframes popIn {
+          0% { transform: scale(0.7) translateY(60px); opacity: 0; }
+          100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        @keyframes sparkle {
+          0% { opacity: 0.7; transform: scale(1) rotate(0deg); }
+          100% { opacity: 1; transform: scale(1.3) rotate(20deg); }
+        }
+      </style>
     `;
-    
     document.body.appendChild(modal);
   }
-  
   // Display the modal
-  document.getElementById('authRequiredModal').style.display = 'block';
+  document.getElementById('authRequiredModal').style.display = 'flex';
 }
 
 // Join Quiz button - check login first
