@@ -81,7 +81,7 @@ function showAuthRequiredModal(action) {
           <button class="close" onclick="closeModal('authRequiredModal')" style="position: absolute; top: 18px; right: 24px; background: none; border: none; font-size: 2.3rem; color: #7f53ac; cursor: pointer; z-index: 2; transition: color 0.2s;">&times;</button>
           <div class="modal-body" style="margin-top: 0.5rem;">
             <div style="font-size: 1.22rem; color: #4a5a8a; margin-bottom: 1.3rem; font-family: 'Segoe UI',sans-serif;">Please sign up or log in to continue.<br><span style='font-size:2.7rem; display:inline-block; margin-top:0.7rem;'>🎉🤖</span></div>
-            <div style="display: flex; gap: 22px; justify-content: center; margin-top: 32px; flex-wrap: wrap;">
+            <div style="display: flex; gap: 22px; justify-content: center;">
               <button class="form-submit" onclick="switchModal('authRequiredModal', 'signupModal')"
                 style="background: linear-gradient(90deg, #fc466b, #3f5efb); color: #fff; border: none; border-radius: 24px; padding: 15px 40px; font-size: 1.18rem; min-width: 150px; font-weight: bold; box-shadow: 0 2px 12px #fc466b22; transition: background 0.2s, color 0.2s, transform 0.15s; cursor: pointer; letter-spacing: 0.5px; outline:none;"
                 onmouseover="this.style.background='linear-gradient(90deg,#43e97b,#38f9d7)';this.style.transform='scale(1.06)';" onmouseout="this.style.background='linear-gradient(90deg, #fc466b, #3f5efb)';this.style.transform='scale(1)';">Sign Up</button>
