@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Quiz | QuizSync</title>
     <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="../styles/home.css">
 </head>
 <body>
     <div class="main-container">
@@ -12,15 +13,25 @@
             <nav>
                 <div class="logo">
                     <img src="../logo.jpg" alt="QuizSync Logo" />
-                    <span class="logo-text">QuizSync</span>
+                    <span class="logo-text hero-title-animated">QuizSync</span>
                 </div>
                 <div class="nav-links-group">
                     <div class="nav-links">
-                        <a href="../home.html">Home</a>
+                        <a href="../home.html#features">Features</a>
+                        <a href="../home.html#" onclick="event.preventDefault(); window.location.href='../student_dashboard/index.html';">Join Quiz</a>
+                        <a href="../home.html#" onclick="event.preventDefault();">Create Quiz</a>
+                        <a href="../about.html" onclick="event.preventDefault(); window.location.href='../about.html';">About Us</a>
+                        <div class="auth-buttons">
+                            <a href="#" class="btn-login" onclick="openModal('login')">Login</a>
+                            <a href="#" class="btn-signup" onclick="openModal('signup')">Sign Up</a>
+                        </div>
                     </div>
-                    <button class="profile-btn" title="Profile">
-                        <img src="../profile logo.jpg" alt="Profile" />
-                    </button>
+                    <div class="profile-greeting-flex" style="display:none; align-items:center; gap:0;">
+                        <div class="user-greeting" style="display:flex; align-items:center; font-weight:600; color:#fff; font-size:1.15rem; background:linear-gradient(90deg,#667eea,#fc466b); padding:0.5rem 1.2rem; border-radius:24px 0 0 24px; border:none; box-shadow:0 2px 8px #667eea22;"></div>
+                        <button class="profile-btn" title="Profile" style="border-radius:0 24px 24px 0; margin-left:0;">
+                            <img src="../profile logo.jpg" alt="Profile" />
+                        </button>
+                    </div>
                 </div>
             </nav>
         </header>
@@ -241,6 +252,106 @@
             </section>
         </div>
 
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-illustration">
+                    <span>🔐</span>
+                    <div>Welcome Back!</div>
+                </div>
+                <div class="modal-form-section">
+                    <button class="close" onclick="closeModal('loginModal')">&times;</button>
+                    <div class="modal-header">
+                        <h2>Login to QuizSync</h2>
+                        <p>Access your quizzes and results.</p>
+                    </div>
+                    <div class="modal-body">
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label for="loginEmail">Email Address</label>
+                                <span class="input-icon">📧</span>
+                                <input type="email" id="loginEmail" name="email" required placeholder="Enter your email" class="js-input-login-email" />
+                            </div>
+                            <div class="form-group">
+                                <label for="loginPassword">Password</label>
+                                <span class="input-icon">🔒</span>
+                                <input type="password" id="loginPassword" name="password" required placeholder="Enter your password" class="js-input-login-password" />
+                                <button type="button" class="toggle-password-visibility" style="margin-left:8px;">Show</button>
+                            </div>
+                            <button type="submit" class="form-submit js-login-btn">Login</button>
+                            <div class="form-switch">
+                                Don't have an account?
+                                <a href="#" onclick="switchModal('loginModal', 'signupModal')">Sign up here</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signup Modal -->
+        <div id="signupModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-form-section">
+                    <button class="close" onclick="closeModal('signupModal')">&times;</button>
+                    <div class="modal-header">
+                        <h2>Create Your Account</h2>
+                        <p>Start creating and joining quizzes instantly.</p>
+                    </div>
+                    <div class="modal-body">
+                        <form id="signupForm">
+                            <div class="form-group">
+                                <label for="signupName">Full Name</label>
+                                <span class="input-icon">👤</span>
+                                <input type="text" id="signupName" name="name" required placeholder="Enter your full name" class="js-input-signup-name" />
+                                <div class="form-feedback" id="nameFeedback"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="signupEmail">Email Address</label>
+                                <span class="input-icon">📧</span>
+                                <input type="email" id="signupEmail" name="email" required placeholder="Enter your email address" class="js-input-signup-email" />
+                                <div class="form-feedback" id="emailFeedback"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="signupPassword">Password</label>
+                                <span class="input-icon">🔒</span>
+                                <input type="password" id="signupPassword" name="password" required placeholder="Create a strong password" class="js-input-signup-password" />
+                                <button type="button" class="toggle-password-visibility" style="margin-left:8px;">Show</button>
+                                <div class="password-strength">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="passwordStrength"></div>
+                                    </div>
+                                    <small>Password strength: <span id="strengthText">Weak</span></small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="signupConfirmPassword">Confirm Password</label>
+                                <span class="input-icon">🔒</span>
+                                <input type="password" id="signupConfirmPassword" name="confirmPassword" required placeholder="Confirm your password" class="js-input-signup-submit" />
+                                <button type="button" class="toggle-password-visibility" style="margin-left:8px;">Show</button>
+                                <div class="form-feedback" id="confirmFeedback"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="termsCheckbox" required />
+                                    <span class="checkmark"></span>
+                                    I agree to the <a href="#" style="color: #667eea">Terms of Service</a> and <a href="#" style="color: #667eea">Privacy Policy</a>
+                                </label>
+                            </div>
+                            <button type="submit" class="form-submit">
+                                <span class="btn-text">Create Account</span>
+                                <span class="btn-loading" style="display: none">Creating Account...</span>
+                            </button>
+                            <div class="form-switch">
+                                Already have an account?
+                                <a href="#" onclick="switchModal('signupModal', 'loginModal')">Login here</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Profile Modal -->
         <div id="profileModal" class="modal">
             <div class="modal-content">
@@ -256,13 +367,83 @@
             </div>
         </div>
 
+        <!-- Footer -->
         <footer>
             <div class="footer-content">
-                <p>&copy; 2024 QuizSync. All rights reserved.</p>
+                <div class="footer-section">
+                    <h3>QuizSync</h3>
+                    <p>
+                        Transform your learning experience with our innovative quiz
+                        platform. Join millions of users worldwide in creating and
+                        participating in engaging, interactive quizzes.
+                    </p>
+                    <div class="social-links">
+                        <a href="#"><span>📘</span></a>
+                        <a href="#"><span>🐦</span></a>
+                        <a href="#"><span>📷</span></a>
+                        <a href="#"><span>💼</span></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="#features">Real-time Sync</a></li>
+                        <li><a href="#features">Custom Themes</a></li>
+                        <li><a href="#features">Advanced Analytics</a></li>
+                        <li><a href="#features">Multi-device Support</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#join-quiz">Join Quiz</a></li>
+                        <li><a href="#create-quiz">Create Quiz</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <div class="contact-info">
+                        <span>📍</span>
+                        <span
+                            ><strong>Address 1:</strong> Vivekanand Institute of Technology,
+                            Chembur Colony, Chembur (W), Mumbai</span
+                        >
+                    </div>
+                    <div class="contact-info">
+                        <span>📍</span>
+                        <span
+                            ><strong>Address 2:</strong> GODJN Solutions Pvt Ltd, Pune</span
+                        >
+                    </div>
+                    <div class="contact-info">
+                        <span>📧</span>
+                        <span>support@quizsync.com</span>
+                    </div>
+                    <div class="contact-info">
+                        <span>📞</span>
+                        <span>+91 8425997049</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="footer-bottom">
+                <p>
+                    &copy; 2025 QuizSync. All rights reserved. | Privacy Policy | Terms
+                    of Service
+                </p>
             </div>
         </footer>
     </div>
 
+    <script src="../scripts/profile.js"></script>
+    <script src="../scripts/login.js"></script>
+    <script src="../scripts/data.js"></script>
+    <script src="../scripts/home.js"></script>
     <script src="scripts/dashboard.js"></script>
 </body>
 </html> 

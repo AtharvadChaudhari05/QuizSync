@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quiz Results | QuizSync</title>
     <link rel="stylesheet" href="styles/student_dashboard.css" />
+    <link rel="stylesheet" href="../styles/home.css" />
 </head>
 
 <body>
@@ -18,7 +19,20 @@
                 </div>
                 <div class="nav-links-group">
                     <div class="nav-links">
-                        <a href="../home.html">Home</a>
+                        <a href="../home.html#features">Features</a>
+                        <a href="../home.html#" onclick="event.preventDefault();">Join Quiz</a>
+                        <a href="../home.html#" onclick="event.preventDefault();">Create Quiz</a>
+                        <a href="../about.html">About Us</a>
+                        <div class="auth-buttons">
+                            <a href="#" class="btn-login" onclick="openModal('login')">Login</a>
+                            <a href="#" class="btn-signup" onclick="openModal('signup')">Sign Up</a>
+                        </div>
+                    </div>
+                    <div class="profile-greeting-flex" style="display:none; align-items:center; gap:0;">
+                        <div class="user-greeting" style="display:flex; align-items:center; font-weight:600; color:#fff; font-size:1.15rem; background:linear-gradient(90deg,#667eea,#fc466b); padding:0.5rem 1.2rem; border-radius:24px 0 0 24px; border:none; box-shadow:0 2px 8px #667eea22;"></div>
+                        <button class="profile-btn" title="Profile" style="border-radius:0 24px 24px 0; margin-left:0;">
+                            <img src="../profile logo.jpg" alt="Profile" />
+                        </button>
                     </div>
                 </div>
             </nav>
@@ -80,6 +94,127 @@
         </footer>
     </div>
 
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-illustration">
+                <span>🔐</span>
+                <div>Welcome Back!</div>
+            </div>
+            <div class="modal-form-section">
+                <button class="close" onclick="closeModal('loginModal')">&times;</button>
+                <div class="modal-header">
+                    <h2>Login to QuizSync</h2>
+                    <p>Access your quizzes and results.</p>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email Address</label>
+                            <span class="input-icon">📧</span>
+                            <input type="email" id="loginEmail" name="email" required placeholder="Enter your email" class="js-input-login-email" />
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <span class="input-icon">🔒</span>
+                            <input type="password" id="loginPassword" name="password" required placeholder="Enter your password" class="js-input-login-password" />
+                            <button type="button" class="toggle-password-visibility" style="margin-left:8px;">Show</button>
+                        </div>
+                        <button type="submit" class="form-submit js-login-btn">Login</button>
+                        <div class="form-switch">
+                            Don't have an account?
+                            <a href="#" onclick="switchModal('loginModal', 'signupModal')">Sign up here</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-form-section">
+                <button class="close" onclick="closeModal('signupModal')">&times;</button>
+                <div class="modal-header">
+                    <h2>Create Your Account</h2>
+                    <p>Start creating and joining quizzes instantly.</p>
+                </div>
+                <div class="modal-body">
+                    <form id="signupForm">
+                        <div class="form-group">
+                            <label for="signupName">Full Name</label>
+                            <span class="input-icon">👤</span>
+                            <input type="text" id="signupName" name="name" required placeholder="Enter your full name" class="js-input-signup-name" />
+                            <div class="form-feedback" id="nameFeedback"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupEmail">Email Address</label>
+                            <span class="input-icon">📧</span>
+                            <input type="email" id="signupEmail" name="email" required placeholder="Enter your email address" class="js-input-signup-email" />
+                            <div class="form-feedback" id="emailFeedback"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPassword">Password</label>
+                            <span class="input-icon">🔒</span>
+                            <input type="password" id="signupPassword" name="password" required placeholder="Create a strong password" class="js-input-signup-password" />
+                            <button type="button" class="toggle-password-visibility" style="margin-left:8px;">Show</button>
+                            <div class="password-strength">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="passwordStrength"></div>
+                                </div>
+                                <small>Password strength: <span id="strengthText">Weak</span></small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupConfirmPassword">Confirm Password</label>
+                            <span class="input-icon">🔒</span>
+                            <input type="password" id="signupConfirmPassword" name="confirmPassword" required placeholder="Confirm your password" class="js-input-signup-submit" />
+                            <button type="button" class="toggle-password-visibility" style="margin-left:8px;">Show</button>
+                            <div class="form-feedback" id="confirmFeedback"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="termsCheckbox" required />
+                                <span class="checkmark"></span>
+                                I agree to the <a href="#" style="color: #667eea">Terms of Service</a> and <a href="#" style="color: #667eea">Privacy Policy</a>
+                            </label>
+                        </div>
+                        <button type="submit" class="form-submit">
+                            <span class="btn-text">Create Account</span>
+                            <span class="btn-loading" style="display: none">Creating Account...</span>
+                        </button>
+                        <div class="form-switch">
+                            Already have an account?
+                            <a href="#" onclick="switchModal('signupModal', 'loginModal')">Login here</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-form-section" style="align-items:center; text-align:center;">
+                <button class="close" onclick="closeModal('profileModal')">&times;</button>
+                <div style="margin: 1.5rem 0 1rem 0;">
+                    <img src="../profile logo.jpg" alt="Profile" style="width:90px; height:90px; border-radius:50%; box-shadow:0 2px 12px #667eea44; margin-bottom:1rem;" />
+                    <h2 style="margin:0; font-size:1.5rem; color:#324376;" class="js-profile-name"></h2>
+                    <p style="margin:0.5rem 0 1.5rem 0; color:#4a5a8a; font-size:1rem;" class="js-profile-email"></p>
+                    <button style="padding:0.7rem 2rem; border-radius:30px; background:linear-gradient(90deg,#667eea,#fc466b); color:#fff; border:none; font-weight:600; cursor:pointer;" class="js-profile-logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../scripts/profile.js"></script>
+    <script src="../scripts/login.js"></script>
+    <script src="../scripts/data.js"></script>
+    <script src="../scripts/home.js"></script>
     <script src="scripts/results.js"></script>
 </body>
 
