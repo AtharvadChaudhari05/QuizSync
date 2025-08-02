@@ -78,8 +78,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     aiBtn.addEventListener('click', function() {
-        // Start AI quiz creation - for future implementation
-        alert('AI Quiz Generation will be available soon!');
+        // Navigate to AI quiz generator page
+        window.location.href = 'ai-quiz-generator.html';
     });
     
     backToOptionsBtn.addEventListener('click', function() {

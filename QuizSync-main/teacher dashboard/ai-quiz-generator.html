@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Quiz Generator | QuizSync</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="../styles/home.css">
+    <style>
+        .ai-form-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .ai-form-header h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .ai-form-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .ai-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .form-group input, .form-group select {
+            padding: 0.75rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .generate-btn {
+            background: linear-gradient(90deg, #667eea, #fc466b);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 1rem;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-btn {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e1e5e9;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .back-btn:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: #dc3545;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="../logo.jpg" alt="QuizSync Logo" />
+                    <span class="logo-text hero-title-animated">QuizSync</span>
+                </div>
+                <div class="nav-links-group">
+                    <div class="nav-links">
+                        <a href="../home.html#features">Features</a>
+                        <a href="#" onclick="event.preventDefault(); joinQuiz();">Join Quiz</a>
+                        <a href="#" onclick="event.preventDefault(); createQuiz();">Create Quiz</a>
+                        <a href="../about.html">About Us</a>
+                    </div>
+                    <div class="profile-greeting-flex" style="display:flex; align-items:center; gap:0;">
+                        <div class="user-greeting" style="display:flex; align-items:center; font-weight:600; color:#fff; font-size:1.15rem; background:linear-gradient(90deg,#667eea,#fc466b); padding:0.5rem 1.2rem; border-radius:24px 0 0 24px; border:none; box-shadow:0 2px 8px #667eea22;"></div>
+                        <button class="profile-btn" title="Profile" style="border-radius:0 24px 24px 0; margin-left:0;">
+                            <img src="../profile logo.jpg" alt="Profile" />
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="content-wrapper">
+            <div class="ai-form-container">
+                <a href="index.html" class="back-btn">← Back to Dashboard</a>
+                
+                <div class="ai-form-header">
+                    <h1>🤖 AI Quiz Generator</h1>
+                    <p>Let our AI create engaging questions for your quiz</p>
+                </div>
+
+                <form id="ai-quiz-form" class="ai-form">
+                    <div class="form-group">
+                        <label for="course-name">Course Name *</label>
+                        <input type="text" id="course-name" name="course-name" placeholder="e.g., Computer Science, Mathematics, Physics" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject-name">Subject Name *</label>
+                        <input type="text" id="subject-name" name="subject-name" placeholder="e.g., Programming, Algebra, Mechanics" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="chapter-name">Chapter Name *</label>
+                        <input type="text" id="chapter-name" name="chapter-name" placeholder="e.g., Variables and Data Types, Linear Equations, Newton's Laws" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question-count">Number of Questions *</label>
+                        <select id="question-count" name="question-count" required>
+                            <option value="">Select number of questions</option>
+                            <option value="5">5 Questions</option>
+                            <option value="10">10 Questions</option>
+                            <option value="15">15 Questions</option>
+                            <option value="20">20 Questions</option>
+                            <option value="25">25 Questions</option>
+                            <option value="30">30 Questions</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="generate-btn" id="generate-btn">
+                        <span class="btn-text">Generate Quiz</span>
+                        <span class="btn-loading" style="display: none;">Generating...</span>
+                    </button>
+                </form>
+
+                <div class="loading" id="loading">
+                    <div class="loading-spinner"></div>
+                    <p>AI is generating your quiz questions...</p>
+                </div>
+
+                <div class="error-message" id="error-message"></div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>QuizSync</h3>
+                    <p>
+                        Transform your learning experience with our innovative quiz
+                        platform. Join millions of users worldwide in creating and
+                        participating in engaging, interactive quizzes.
+                    </p>
+                    <div class="social-links">
+                        <a href="#"><span>📘</span></a>
+                        <a href="#"><span>🐦</span></a>
+                        <a href="#"><span>📷</span></a>
+                        <a href="#"><span>💼</span></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="../home.html#features">Real-time Sync</a></li>
+                        <li><a href="../home.html#features">Custom Themes</a></li>
+                        <li><a href="../home.html#features">Advanced Analytics</a></li>
+                        <li><a href="../home.html#features">Multi-device Support</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../home.html#join-quiz">Join Quiz</a></li>
+                        <li><a href="../home.html#create-quiz">Create Quiz</a></li>
+                        <li><a href="../home.html#features">Features</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <div class="contact-info">
+                        <span>📍</span>
+                        <span
+                            ><strong>Address 1:</strong> Vivekanand Institute of Technology,
+                            Chembur Colony, Chembur (W), Mumbai</span
+                        >
+                    </div>
+                    <div class="contact-info">
+                        <span>📍</span>
+                        <span
+                            ><strong>Address 2:</strong> GODJN Solutions Pvt Ltd, Pune</span
+                        >
+                    </div>
+                    <div class="contact-info">
+                        <span>📧</span>
+                        <span>support@quizsync.com</span>
+                    </div>
+                    <div class="contact-info">
+                        <span>📞</span>
+                        <span>+91 8425997049</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="footer-bottom">
+                <p>
+                    &copy; 2025 QuizSync. All rights reserved. | Privacy Policy | Terms
+                    of Service
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../scripts/profile.js"></script>
+    <script src="../scripts/login.js"></script>
+    <script src="../scripts/data.js"></script>
+    <script src="../scripts/home.js"></script>
+    <script src="scripts/ai-quiz-generator.js"></script>
+    <script>
+        // Update user greeting on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            const userGreeting = document.querySelector('.user-greeting');
+            const profileGreetingFlex = document.querySelector('.profile-greeting-flex');
+            
+            if (loggedInUser && userGreeting && profileGreetingFlex) {
+                const user = JSON.parse(loggedInUser);
+                userGreeting.textContent = `Hi, ${user.name}`;
+                profileGreetingFlex.style.display = 'flex';
+            }
+        });
+    </script>
+</body>
+</html> 
